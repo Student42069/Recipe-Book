@@ -99,3 +99,4 @@ Les  tests réussissent.
 
 * [GitLab CI/CD](https://docs.gitlab.com/ee/ci/)
 * [GitLab Flavored Markdown](https://docs.gitlab.com/ee/user/markdown.html)
+* [Inclusion guards of standart libraries](https://stackoverflow.com/a/25361340)
