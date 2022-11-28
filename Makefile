@@ -21,5 +21,6 @@ tests.o: tests.h tests.c
 	$(CC) $(OPTIONS) -c tests.c
 
 clean:
-	rm *.o -f
-	rm recherche -f
+	rm -f *.o
+	rm -f recherche
+	rm -f *.txt
