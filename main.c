@@ -50,7 +50,27 @@ void throw_error_args_count() {
 
 void load_recipes(char *file_name) {
     FILE *fp = open_file(file_name, "r");
+    char buffer[MAX_LINE_LENGHT + 1];
+    while(fgets(buffer, MAX_LINE_LENGHT, fp)) {
+        if (buffer[strlen(buffer) - 1] == '\n')
+            buffer[strlen(buffer)- 1] = '\0';
+        load_one_recipe(buffer);
+        // printf("%s\n", buffer);
+    }
     close_file(fp);
+}
+
+void load_one_recipe(char *buffer) {
+    char name[strlen(buffer) + 1];
+    name[0] = '\0';
+    get_recipe_name(name, buffer);
+    // char *categories[] = get_categories(buffer);
+    printf("%s\n", name);
+}
+
+void get_recipe_name(char *name, char *buffer) {
+    strncat(name, buffer, strlen(buffer) - strlen(strchr(buffer, '[')) - 1);
+    name[strlen(buffer) - strlen(strchr(buffer, '['))] = '\0';
 }
 
 void run_prompt() {
@@ -61,7 +81,8 @@ void run_prompt() {
 int main(int argc, char *argv[]) {
     check_args(argc, argv);
     load_recipes(argv[1]);
-    produce_stats();
+    if (argc == 4)
+        produce_stats();
     run_prompt();
     // test_module_inclusion();
 }

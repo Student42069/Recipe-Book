@@ -22,6 +22,7 @@ Si aucun argument n'est fourni,\n\
 le programme affiche ce message et se termine.\n\
 "
 
+#define MAX_LINE_LENGHT 120
 
 
 enum error {
@@ -68,3 +69,9 @@ void checkargs(int argc);
 void check_stats_args(char *argv[]);
 
 void throw_error_args_count();
+
+void load_recipes(char *file_name);
+
+void load_one_recipe(char *buffer);
+
+void get_recipe_name(char *name, char *buffer);
