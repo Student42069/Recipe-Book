@@ -85,21 +85,42 @@ int main(int argc, char *argv[]) {
     //     produce_stats();
     // run_prompt();
     // test_module_inclusion();
+
     recipes_book *book = (recipes_book*)malloc(sizeof(recipes_book));
-    puts("ok 1");
+    // puts("ok 1");
     recipes_book_initialize(book);
-    char cat1[] = "Moison neuve";
-    char cat2[] = "Valanche";
-    char cat3[] = "Brisemune";
-    char cat4[] = "Hualiark";
+
+    char cat1[] = "Poulet";
+    char cat2[] = "BBQ";
+    char cat3[] = "Asiatique";
+    char cat4[] = "Soupe";
+
+    char rec1[] = "Poulet au romarin";
+    char rec2[] = "Boeuf au satay";
+    char rec3[] = "Salade du jardin";
+    char rec4[] = "Poulet crapaudine";
+    char rec5[] = "Pho";
+    char rec6[] = "Authentique gibelotte des iles de Sorel";
+    char rec7[] = "Won-tong big shlong soup";
+    char rec8[] = "Epaves aux milles et 1 crabes";
+
     recipes_book_add_category(book, cat1);
     recipes_book_add_category(book, cat2);
     recipes_book_add_category(book, cat3);
     recipes_book_add_category(book, cat4);
 
-    run_list(book);
+    // recipes_book_add_recipe(book, cat1, rec1);
+    // recipes_book_add_recipe(book, cat1, rec2);
+    // recipes_book_add_recipe(book, cat1, rec3);
+    // recipes_book_add_recipe(book, cat1, rec4);
+    // recipes_book_add_recipe(book, cat3, rec5);
+    // recipes_book_add_recipe(book, cat4, rec6);
+    // recipes_book_add_recipe(book, cat3, rec7);
+    // recipes_book_add_recipe(book, cat3, rec8);
+
+    print_book(book);
     free_recipe_book(book);
-    free(book);
+    // free(book);
 
     return 0;
 }

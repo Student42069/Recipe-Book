@@ -3,7 +3,7 @@
 void recipes_book_initialize(recipes_book *l) {
     l->first = NULL;
     l->num_categories = 0;
-    puts("ok 2");
+    // puts("ok 2");
 }
 
 void recipes_book_add_category(recipes_book *book, const char *category) {
@@ -11,9 +11,9 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
     struct category_node *previous = NULL;
     // printf("\n\nList elements are - \n");
     if (current == NULL) {
-        puts("ok 3");
+        // puts("ok 3");
         current = (struct category_node*)malloc(sizeof(struct category_node));
-        puts("ok 4");
+        // puts("ok 4");
         // printf("content is : %s\n", category);
 
         strcpy(current->category, category);
@@ -24,6 +24,9 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
         current->next = NULL;
         
         book->first = current;
+
+        printf("Add category : %s\n", current->category);
+
         return;
     }
 
@@ -44,8 +47,10 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
 
     if (previous == NULL) {
         book->first = add_first_category(current, category);
+        printf("Add category : %s\n", book->first->category);
     } else {
         add_category(previous, category);
+        printf("Add category : %s\n", category);
     }
 
     ++book->num_categories;
@@ -69,7 +74,9 @@ void add_recipe(struct category_node *category, const char *recipe) {
         current = (struct recipe_node*)malloc(sizeof(struct recipe_node));
         strcpy(current->name, recipe);
         current->next = NULL;
+
         category->recipes = current;
+
         return;
     }
 
@@ -89,6 +96,12 @@ void add_recipe(struct category_node *category, const char *recipe) {
             // return;
             break;
         }
+    }
+
+    if (previous == NULL) {
+        category->recipes = add_first_recipe(current, recipe);
+    } else {
+        add_this_recipe(previous, recipe);
     }
 
     add_this_recipe(previous, recipe);
@@ -130,16 +143,27 @@ struct category_node* add_first_category(struct category_node *current, const ch
     return new_node;
 }
 
+struct recipe_node* add_first_recipe(struct recipe_node *current, const char *recipe) {
+    struct recipe_node* new_node;
+	new_node = (struct recipe_node*)malloc(sizeof(struct recipe_node));
+    
+    strcpy(new_node->name, recipe);
+    new_node->next = current;
+
+    return new_node;
+}
+
 void free_recipe_book(recipes_book *book) {
     struct category_node *current = book->first;
     struct category_node *previous;
     while(current){
         previous = current;
         current = current->next;
-        printf("libere : %s\n", previous->category);
-        // free_recipes(previous);
+        printf("Libere la categorie : %s\n", previous->category);
+        free_recipes(previous);
         free(previous);
     }
+    free(book);
 }
 
 void free_recipes(struct category_node *category) {
@@ -148,24 +172,39 @@ void free_recipes(struct category_node *category) {
     while(current){
         previous = current;
         current = current->next;
+        // printf("libere la recette : %s\n", previous->name);
         free(previous);
     }
 }
 
-void run_list(recipes_book *book) {
-    if(book==NULL)
-	{
-		printf("Linked List is Empty\n");
+void print_book(recipes_book *book) {
+    if(book==NULL) {
+		printf("Book is empty !\n");
 		return;
 	}
 
-    printf("LinkedList: \n");
+    printf("Printing book...\n");
 	struct category_node *current = book->first;
     // printf("%s \n", current->category);
 
-	while(current)
-	{
-		printf("%s\n",current->category);
+	while(current) {
+		printf("Category : %s\n",current->category);
+        // print_recipes(current->recipes);
+		current = current->next;
+	}
+}
+
+void print_recipes(struct recipe_node *recipe) {
+    if(!recipe) {
+		printf("This category is Empty !\n");
+		return;
+	}
+
+    printf("The recipes are : \n");
+	struct recipe_node *current = recipe;
+
+	while(current) {
+		printf("Categorie : %s\n", recipe->name);
 		current = current->next;
 	}
 }
