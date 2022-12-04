@@ -109,14 +109,14 @@ int main(int argc, char *argv[]) {
     recipes_book_add_category(book, cat3);
     recipes_book_add_category(book, cat4);
 
-    // recipes_book_add_recipe(book, cat1, rec1);
-    // recipes_book_add_recipe(book, cat1, rec2);
-    // recipes_book_add_recipe(book, cat1, rec3);
-    // recipes_book_add_recipe(book, cat1, rec4);
-    // recipes_book_add_recipe(book, cat3, rec5);
-    // recipes_book_add_recipe(book, cat4, rec6);
-    // recipes_book_add_recipe(book, cat3, rec7);
-    // recipes_book_add_recipe(book, cat3, rec8);
+    recipes_book_add_recipe(book, cat1, rec1);
+    recipes_book_add_recipe(book, cat1, rec2);
+    recipes_book_add_recipe(book, cat1, rec3);
+    recipes_book_add_recipe(book, cat1, rec4);
+    recipes_book_add_recipe(book, cat3, rec5);
+    recipes_book_add_recipe(book, cat4, rec6);
+    recipes_book_add_recipe(book, cat3, rec7);
+    recipes_book_add_recipe(book, cat3, rec8);
 
     print_book(book);
     free_recipe_book(book);

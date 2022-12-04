@@ -25,12 +25,12 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
         
         book->first = current;
 
-        printf("Add category : %s\n", current->category);
+        // printf("Add category : %s\n", current->category);
 
         return;
     }
 
-    while(current) {
+    while (current) {
         // printf("%s\n",current->category);
         if (strcmp(current->category, category) == 0) {
             return;
@@ -47,10 +47,10 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
 
     if (previous == NULL) {
         book->first = add_first_category(current, category);
-        printf("Add category : %s\n", book->first->category);
+        // printf("Add category : %s\n", book->first->category);
     } else {
         add_category(previous, category);
-        printf("Add category : %s\n", category);
+        // printf("Add category : %s\n", category);
     }
 
     ++book->num_categories;
@@ -68,25 +68,28 @@ void recipes_book_add_recipe(recipes_book *book, const char *category, const cha
 
 void add_recipe(struct category_node *category, const char *recipe) {
     struct recipe_node *current = category->recipes;
-    struct recipe_node *previous;
+    struct recipe_node *previous = NULL;
 
     if (current == NULL) {
         current = (struct recipe_node*)malloc(sizeof(struct recipe_node));
+        
         strcpy(current->name, recipe);
         current->next = NULL;
 
         category->recipes = current;
 
+        // printf("%s\n", "Adding a initial node");
+
         return;
     }
 
-    while(current) {
+    while (current) {
         // printf("%s\n",current->category);
         if (strcmp(current->name, recipe) == 0) {
             // add_this_recipe(previous, recipe);
             // ++category->num_recipes;
             // return;
-            break;
+            return;
         } else if (strcmp(current->name, recipe) < 0) {
             previous = current;
             current = current->next;
@@ -99,12 +102,14 @@ void add_recipe(struct category_node *category, const char *recipe) {
     }
 
     if (previous == NULL) {
+        // printf("%s\n", "Adding a first node :");
         category->recipes = add_first_recipe(current, recipe);
     } else {
+        // printf("%s\n", "Adding a next node :");
         add_this_recipe(previous, recipe);
     }
 
-    add_this_recipe(previous, recipe);
+    // add_this_recipe(previous, recipe);
     ++category->num_recipes;
 
     // puts("ne devrais pas arriver !??!!?");
@@ -113,8 +118,11 @@ void add_recipe(struct category_node *category, const char *recipe) {
 void add_this_recipe(struct recipe_node *previous, const char *recipe) {
     struct recipe_node* new_node;
 	new_node = (struct recipe_node*)malloc(sizeof(struct recipe_node));
+    
     strcpy(new_node->name, recipe);
     new_node->next = previous->next;
+    // printf("%s\n", new_node->name);
+    
     previous->next = new_node;
 }
 
@@ -172,7 +180,7 @@ void free_recipes(struct category_node *category) {
     while(current){
         previous = current;
         current = current->next;
-        // printf("libere la recette : %s\n", previous->name);
+        printf("libere la recette : %s\n", previous->name);
         free(previous);
     }
 }
@@ -183,13 +191,14 @@ void print_book(recipes_book *book) {
 		return;
 	}
 
-    printf("Printing book...\n");
+    printf("\nPrinting book...\n=====================\n");
 	struct category_node *current = book->first;
     // printf("%s \n", current->category);
 
 	while(current) {
 		printf("Category : %s\n",current->category);
-        // print_recipes(current->recipes);
+        print_recipes(current->recipes);
+        printf("\n=====================\n");
 		current = current->next;
 	}
 }
@@ -204,7 +213,7 @@ void print_recipes(struct recipe_node *recipe) {
 	struct recipe_node *current = recipe;
 
 	while(current) {
-		printf("Categorie : %s\n", recipe->name);
+		printf("%s\n", current->name);
 		current = current->next;
 	}
 }
