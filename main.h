@@ -22,7 +22,7 @@ Si aucun argument n'est fourni,\n\
 le programme affiche ce message et se termine.\n\
 "
 
-#define MAX_LINE_LENGHT 120
+// #define MAX_LINE_LENGHT 120
 
 
 enum error {

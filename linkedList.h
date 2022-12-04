@@ -2,11 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
+// #include "main.h"
+#define MAX_LINE_LENGHT 120
+
 #ifndef LINKEDLIST_H_INCLUDED
 #define LINKEDLIST_H_INCLUDED
 
 struct category_node {
-    char *category;
+    char category[MAX_LINE_LENGHT];
     unsigned int num_recipes;
     struct recipe_node *recipes;
     struct category_node *next;
@@ -34,8 +37,12 @@ void add_this_recipe(struct recipe_node *previous, const char *recipe);
 
 void add_category(struct category_node *previous, const char *category);
 
+struct category_node* add_first_category(struct category_node *current, const char *category);
+
 void free_recipe_book(recipes_book *book);
 
 void free_recipes(struct category_node *category);
+
+void run_list(recipes_book *book);
 
 #endif

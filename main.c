@@ -79,10 +79,27 @@ void run_prompt() {
 }
 
 int main(int argc, char *argv[]) {
-    check_args(argc, argv);
-    load_recipes(argv[1]);
-    if (argc == 4)
-        produce_stats();
-    run_prompt();
+    // check_args(argc, argv);
+    // load_recipes(argv[1]);
+    // if (argc == 4)
+    //     produce_stats();
+    // run_prompt();
     // test_module_inclusion();
+    recipes_book *book = (recipes_book*)malloc(sizeof(recipes_book));
+    puts("ok 1");
+    recipes_book_initialize(book);
+    char cat1[] = "Moison neuve";
+    char cat2[] = "Valanche";
+    char cat3[] = "Brisemune";
+    char cat4[] = "Hualiark";
+    recipes_book_add_category(book, cat1);
+    recipes_book_add_category(book, cat2);
+    recipes_book_add_category(book, cat3);
+    recipes_book_add_category(book, cat4);
+
+    run_list(book);
+    free_recipe_book(book);
+    free(book);
+
+    return 0;
 }
