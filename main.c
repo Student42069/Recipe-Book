@@ -48,47 +48,42 @@ void throw_error_args_count() {
     exit(ERREUR_NB_ARGS);
 }
 
-void load_recipes(char *file_name) {
+void load_recipes(char *file_name, recipes_book *book) {
     FILE *fp = open_file(file_name, "r");
     char buffer[MAX_LINE_LENGHT + 1];
     while(fgets(buffer, MAX_LINE_LENGHT, fp)) {
         if (buffer[strlen(buffer) - 1] == '\n')
             buffer[strlen(buffer)- 1] = '\0';
-        load_one_recipe(buffer);
+        load_one_recipe(buffer, book);
         // printf("%s\n", buffer);
     }
     close_file(fp);
 }
 
-void load_one_recipe(char *buffer) {
+void load_one_recipe(char *buffer, recipes_book *book) {
     char name[strlen(buffer) + 1];
     name[0] = '\0';
     get_recipe_name(name, buffer);
-    load_recipe_into_categories(name, buffer);
+    load_recipe_into_categories(name, buffer, book);
     printf("%s\n", name);
 }
 
-void load_recipe_into_categories(char *name, char *buffer) {
-//   char str[] = "This [is] a [string] with [words] in [square] brackets.";
+void load_recipe_into_categories(char *name, char *buffer, recipes_book *book) {
     int start, end;
     char category_name[MAX_LINE_LENGHT];
     int counter = 0;
 
     for (int i = 0; i < (int) strlen(buffer); i++) {
-        if (buffer[i] == '[') {
+        if (buffer[i] == '[')
             start = i;
-        }
 
         if (buffer[i] == ']') {
             end = i;
-            for (int j = start + 1; j < end; j++) {
-            category_name[counter++] = buffer[j];
-            // printf("%c", buffer[j]);
-            }
+            for (int j = start + 1; j < end; j++)
+                category_name[counter++] = buffer[j];
             category_name[counter] = '\0';
             counter = 0;
             printf("%s\n", category_name);
-        //   printf("\n");
         }
   }
 }
@@ -105,7 +100,9 @@ void run_prompt() {
 
 int main(int argc, char *argv[]) {
     check_args(argc, argv);
-    load_recipes(argv[1]);
+    recipes_book *book = (recipes_book*) malloc(sizeof(recipes_book));
+    recipes_book_initialize(book);
+    load_recipes(argv[1], book);
     if (argc == 4)
         produce_stats();
     run_prompt();

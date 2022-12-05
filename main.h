@@ -70,10 +70,10 @@ void check_stats_args(char *argv[]);
 
 void throw_error_args_count();
 
-void load_recipes(char *file_name);
+void load_recipes(char *file_name, recipes_book *book);
 
-void load_one_recipe(char *buffer);
+void load_one_recipe(char *buffer, recipes_book *book);
 
-void load_recipe_into_categories(char *name, char *buffer);
+void load_recipe_into_categories(char *name, char *buffer, recipes_book *book);
 
 void get_recipe_name(char *name, char *buffer);
