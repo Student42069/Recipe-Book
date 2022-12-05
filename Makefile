@@ -3,17 +3,24 @@ OPTIONS = -Wall -Wextra -std=c11
 EXE = recherche
 FILENAME = recherche
 
-recherche: $(FILENAME).c $(FILENAME).h
-	$(CC) $(OPTIONS) $(FILENAME).c -o $(EXE)
+.PHONY: clean
 
-test: recherche
-	bats check.bats
+recherche: main.o linkedList.o stats.o tests.o
+	$(CC) main.o linkedList.o stats.o tests.o -o $(EXE)
 
-compile: $(FILENAME).c $(FILENAME).h
-	$(CC) $(OPTIONS) -c $(FILENAME).c
+main.o: main.h main.c
+	$(CC) $(OPTIONS) -c main.c
 
-link: compile
-	$(CC) $(FILENAME).o -o $(EXE)
+linkedList.o: linkedList.h linkedList.c
+	$(CC) $(OPTIONS) -c linkedList.c
+
+stats.o: stats.h stats.c
+	$(CC) $(OPTIONS) -c stats.c
+
+tests.o: tests.h tests.c
+	$(CC) $(OPTIONS) -c tests.c
 
 clean:
-	rm *.o -f
+	rm -f *.o
+	rm -f recherche
+	rm -f *.txt

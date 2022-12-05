@@ -99,3 +99,8 @@ Les  tests réussissent.
 
 * [GitLab CI/CD](https://docs.gitlab.com/ee/ci/)
 * [GitLab Flavored Markdown](https://docs.gitlab.com/ee/user/markdown.html)
+* [Inclusion guards of standart libraries](https://stackoverflow.com/a/25361340)
+* [Inclusion guards my modules](https://stackoverflow.com/a/5128719)
+* [fopen()](hhttps://www.tutorialspoint.com/c_standard_library/c_function_fopen.htm)
+* [Linked list in C](https://www.scaler.com/topics/c/linked-list-in-c/)
+* [Free nodes in linked list](https://stackoverflow.com/questions/6417158/c-how-to-free-nodes-in-the-linked-list)
