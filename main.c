@@ -64,8 +64,33 @@ void load_one_recipe(char *buffer) {
     char name[strlen(buffer) + 1];
     name[0] = '\0';
     get_recipe_name(name, buffer);
-    // char *categories[] = get_categories(buffer);
+    load_recipe_into_categories(name, buffer);
     printf("%s\n", name);
+}
+
+void load_recipe_into_categories(char *name, char *buffer) {
+//   char str[] = "This [is] a [string] with [words] in [square] brackets.";
+    int start, end;
+    char category_name[MAX_LINE_LENGHT];
+    int counter = 0;
+
+    for (int i = 0; i < (int) strlen(buffer); i++) {
+        if (buffer[i] == '[') {
+            start = i;
+        }
+
+        if (buffer[i] == ']') {
+            end = i;
+            for (int j = start + 1; j < end; j++) {
+            category_name[counter++] = buffer[j];
+            // printf("%c", buffer[j]);
+            }
+            category_name[counter] = '\0';
+            counter = 0;
+            printf("%s\n", category_name);
+        //   printf("\n");
+        }
+  }
 }
 
 void get_recipe_name(char *name, char *buffer) {
@@ -79,48 +104,45 @@ void run_prompt() {
 }
 
 int main(int argc, char *argv[]) {
-    // check_args(argc, argv);
-    // load_recipes(argv[1]);
-    // if (argc == 4)
-    //     produce_stats();
-    // run_prompt();
-    // test_module_inclusion();
+    check_args(argc, argv);
+    load_recipes(argv[1]);
+    if (argc == 4)
+        produce_stats();
+    run_prompt();
 
-    recipes_book *book = (recipes_book*)malloc(sizeof(recipes_book));
-    // puts("ok 1");
-    recipes_book_initialize(book);
+    // recipes_book *book = (recipes_book*)malloc(sizeof(recipes_book));
+    // recipes_book_initialize(book);
 
-    char cat1[] = "Poulet";
-    char cat2[] = "BBQ";
-    char cat3[] = "Asiatique";
-    char cat4[] = "Soupe";
+    // char cat1[] = "Poulet";
+    // char cat2[] = "BBQ";
+    // char cat3[] = "Asiatique";
+    // char cat4[] = "Soupe";
 
-    char rec1[] = "Poulet au romarin";
-    char rec2[] = "Boeuf au satay";
-    char rec3[] = "Salade du jardin";
-    char rec4[] = "Poulet crapaudine";
-    char rec5[] = "Pho";
-    char rec6[] = "Authentique gibelotte des iles de Sorel";
-    char rec7[] = "Won-tong big shlong soup";
-    char rec8[] = "Epaves aux milles et 1 crabes";
+    // char rec1[] = "Poulet au romarin";
+    // char rec2[] = "Boeuf au satay";
+    // char rec3[] = "Salade du jardin";
+    // char rec4[] = "Poulet crapaudine";
+    // char rec5[] = "Pho";
+    // char rec6[] = "Authentique gibelotte des iles de Sorel";
+    // char rec7[] = "Won-tong big shlong soup";
+    // char rec8[] = "Epaves aux milles et 1 crabes";
 
-    recipes_book_add_category(book, cat1);
-    recipes_book_add_category(book, cat2);
-    recipes_book_add_category(book, cat3);
-    recipes_book_add_category(book, cat4);
+    // recipes_book_add_category(book, cat1);
+    // recipes_book_add_category(book, cat2);
+    // recipes_book_add_category(book, cat3);
+    // recipes_book_add_category(book, cat4);
 
-    recipes_book_add_recipe(book, cat1, rec1);
-    recipes_book_add_recipe(book, cat1, rec2);
-    recipes_book_add_recipe(book, cat1, rec3);
-    recipes_book_add_recipe(book, cat1, rec4);
-    recipes_book_add_recipe(book, cat3, rec5);
-    recipes_book_add_recipe(book, cat4, rec6);
-    recipes_book_add_recipe(book, cat3, rec7);
-    recipes_book_add_recipe(book, cat3, rec8);
+    // recipes_book_add_recipe(book, cat1, rec1);
+    // recipes_book_add_recipe(book, cat1, rec2);
+    // recipes_book_add_recipe(book, cat1, rec3);
+    // recipes_book_add_recipe(book, cat1, rec4);
+    // recipes_book_add_recipe(book, cat3, rec5);
+    // recipes_book_add_recipe(book, cat4, rec6);
+    // recipes_book_add_recipe(book, cat3, rec7);
+    // recipes_book_add_recipe(book, cat3, rec8);
 
-    print_book(book);
-    free_recipe_book(book);
-    // free(book);
+    // print_book(book);
+    // free_recipe_book(book);
 
     return 0;
 }

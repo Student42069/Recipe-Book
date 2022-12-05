@@ -74,4 +74,6 @@ void load_recipes(char *file_name);
 
 void load_one_recipe(char *buffer);
 
+void load_recipe_into_categories(char *name, char *buffer);
+
 void get_recipe_name(char *name, char *buffer);
