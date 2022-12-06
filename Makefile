@@ -3,7 +3,7 @@ OPTIONS = -Wall -Wextra -std=c11
 EXE = recherche
 FILENAME = recherche
 
-.PHONY: clean
+.PHONY: clean valgrind
 
 recherche: main.o linkedList.o stats.o tests.o
 	$(CC) main.o linkedList.o stats.o tests.o -o $(EXE)
@@ -24,3 +24,6 @@ clean:
 	rm -f *.o
 	rm -f recherche
 	rm -f *.txt
+
+valgrind:
+	valgrind --leak-check=yes -s --track-origins=yes ./recherche tests/banque1.txt

@@ -43,6 +43,7 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
 }
 
 void recipes_book_add_recipe(recipes_book *book, const char *category, const char *recipe) {
+    recipes_book_add_category(book, category);
     struct category_node *current = book->first;
 
     while(strcmp(current->category, category) != 0) {
@@ -152,35 +153,35 @@ void free_recipes(struct category_node *category) {
     }
 }
 
-// void print_book(recipes_book *book) {
-//     if(book==NULL) {
-// 		printf("Book is empty !\n");
-// 		return;
-// 	}
+void print_book(recipes_book *book) {
+    if(book==NULL) {
+		printf("Book is empty !\n");
+		return;
+	}
 
-//     printf("\nPrinting book...\n=====================\n");
-// 	struct category_node *current = book->first;
-//     // printf("%s \n", current->category);
+    printf("\nPrinting book...\n=====================\n");
+	struct category_node *current = book->first;
+    // printf("%s \n", current->category);
 
-// 	while(current) {
-// 		printf("Category : %s\n",current->category);
-//         print_recipes(current->recipes);
-//         printf("\n=====================\n");
-// 		current = current->next;
-// 	}
-// }
+	while(current) {
+		printf("Category : %s\n",current->category);
+        print_recipes(current->recipes);
+        printf("\n=====================\n");
+		current = current->next;
+	}
+}
 
-// void print_recipes(struct recipe_node *recipe) {
-//     if(!recipe) {
-// 		printf("This category is Empty !\n");
-// 		return;
-// 	}
+void print_recipes(struct recipe_node *recipe) {
+    if(!recipe) {
+		printf("This category is Empty !\n");
+		return;
+	}
 
-//     printf("The recipes are : \n");
-// 	struct recipe_node *current = recipe;
+    printf("The recipes are : \n");
+	struct recipe_node *current = recipe;
 
-// 	while(current) {
-// 		printf("%s\n", current->name);
-// 		current = current->next;
-// 	}
-// }
+	while(current) {
+		printf("%s\n", current->name);
+		current = current->next;
+	}
+}
