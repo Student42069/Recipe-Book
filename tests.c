@@ -1,31 +1,23 @@
 #include "tests.h"
 
 void test_open_file() {
-    // FILE* fptr = open_file("myfile.txt", "r");
-    // CU_ASSERT_PTR_NOT_NULL(fptr);
-    // close_file(fptr);
-
-    // // Try opening a file that doesn't exist
-    // FILE *fp = open_file("nonexistent.txt", "r");
-    // CU_ASSERT_PTR_NULL(fp);
-
-    // // Try opening a file that exists
-    // fp = open_file("existing.txt", "r");
-    // CU_ASSERT_PTR_NOT_NULL(fp);
-    // fclose(fp);
+    // Try opening a file that exists
+    FILE* fptr = open_file("test/banque_vide.txt", "r");
+    CU_ASSERT_PTR_NOT_NULL(fptr);
+    fclose(fptr);
 }
 
 void test_close_file() {
-    // FILE* fptr = open_file("myfile.txt", "r");
-    // int ret = close_file(fptr);
-    // CU_ASSERT_EQUAL(ret, 0);
+    FILE* fptr = fopen("test/banque_vide.txt", "r");
+    close_file(fptr);
+    CU_ASSERT_EQUAL(0, 0);
 }
 
 void test_check_args() {
     // // Test with invalid number of arguments.
     int argc = 1;
     // char* argv[] = { "./recherche" };
-    // CU_ASSERT_DEATH(check_args(argc, argv), "nombre arguments invalide");
+    // CU_ASSERT_FATAL(check_args(argc, argv));
 
     // Test with valid number of arguments and valid recipe file.
     argc = 2;
@@ -66,8 +58,33 @@ void test_throw_error_args_count() {
     // CU_ASSERT_FATAL(throw_error_args_count());
 }
 
-void test_load_recipes() {
-    // TODO: Add test cases for the load_recipes function.
+void test_load_recipes(void) {
+    // Create a recipes book to load the recipes into
+    recipes_book *book;
+    recipes_book_initialize(book);
+
+    // Create a test recipe file with two recipes
+    FILE *fp = fopen("test_recipes.txt", "w");
+    fprintf(fp, "recipe1 [category1]\nrecipe2 [category2]");
+    fclose(fp);
+
+    // // Load the recipes from the test file
+    load_recipes("test_recipes.txt", book);
+
+    // // Check that the book has two categories
+    CU_ASSERT_EQUAL(book->num_categories, 2);
+
+    // // Check that the first category has the correct name and contains the first recipe
+    struct category_node *category = book->first;
+    CU_ASSERT_STRING_EQUAL(category->category, "category1");
+    CU_ASSERT_EQUAL(category->num_recipes, 1);
+    CU_ASSERT_STRING_EQUAL(category->recipes->name, "recipe1");
+
+    // Check that the second category has the correct name and contains the second recipe
+    category = category->next;
+    CU_ASSERT_STRING_EQUAL(category->category, "category2");
+    CU_ASSERT_EQUAL(category->num_recipes, 1);
+    CU_ASSERT_STRING_EQUAL(category->recipes->name, "recipe2");
 }
 
 void test_load_one_recipe() {
@@ -83,7 +100,23 @@ void test_load_recipe_into_one_category() {
 }
 
 void test_get_recipe_name() {
-    // TODO: Add test cases for the get_recipe_name function.
+    // First
+    char buffer[MAX_LINE_LENGHT] = "Lasagne [plat principal]";
+    char expected_name[MAX_LINE_LENGHT] = "Lasagne";
+    char result_name[MAX_LINE_LENGHT];
+    result_name[0] = '\0';
+    get_recipe_name(result_name, buffer);
+
+    CU_ASSERT_STRING_EQUAL(expected_name, result_name);
+
+    // Second
+    strcpy(buffer, "Soupe aux pois [soupe]");
+    strcpy(expected_name, "Soupe aux pois");
+    result_name[0] = '\0';
+
+    get_recipe_name(result_name, buffer);
+
+    CU_ASSERT_STRING_EQUAL(expected_name, result_name);
 }
 
 void test_run_prompt() {
@@ -105,9 +138,12 @@ int main() {
 
     // Add the test functions to the suite
     if (
-        (NULL == CU_add_test(suite, "test_check_args", test_check_args))
+        (NULL == CU_add_test(suite, "test_open_file", test_open_file)) ||
+        (NULL == CU_add_test(suite, "test_close_file", test_close_file)) ||
+        (NULL == CU_add_test(suite, "test_check_args", test_check_args)) ||
+        (NULL == CU_add_test(suite, "test_load_recipes", test_load_recipes)) ||
+        (NULL == CU_add_test(suite, "test_get_recipe_name", test_get_recipe_name))
         // (NULL == CU_add_test(suite, "test_close_file", test_close_file))
-        // Add more test functions here
     ) {
         CU_cleanup_registry();
         return CU_get_error();
@@ -119,32 +155,3 @@ int main() {
     CU_cleanup_registry();
     return CU_get_error();
 }
-
-// int main() {
-//     // Create a CUnit test suite
-//     CU_pSuite suite = NULL;
-//     if (CUE_SUCCESS != CU_initialize_registry())
-//         return CU_get_error();
-
-//     suite = CU_add_suite("Test Suite", NULL, NULL);
-//     if (NULL == suite) {
-//         CU_cleanup_registry();
-//         return CU_get_error();
-//     }
-
-//     // Add the test functions to the suite
-//     if (
-//         (NULL == CU_add_test(suite, "test_check_args", test_check_args)) ||
-//         (NULL == CU_add_test(suite, "test_load_recipe_into_one_category", test_check_args))
-//         // Add more test functions here
-//     ) {
-//         CU_cleanup_registry();
-//         return CU_get_error();
-//     }
-
-//     // Run the tests
-//     CU_basic_set_mode(CU_BRM_VERBOSE);
-//     CU_basic_run_tests();
-//     CU_cleanup_registry();
-//     return CU_get_error();
-// }

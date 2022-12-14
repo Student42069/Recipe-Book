@@ -19,6 +19,8 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
         
         book->first = current;
 
+        ++book->num_categories;
+
         return;
     }
 
@@ -64,6 +66,8 @@ void add_recipe(struct category_node *category, const char *recipe) {
         current->next = NULL;
 
         category->recipes = current;
+        
+        ++category->num_recipes;
 
         return;
     }
@@ -129,6 +133,25 @@ struct recipe_node* add_first_recipe(struct recipe_node *current, const char *re
     new_node->next = current;
 
     return new_node;
+}
+
+struct recipe_node* get_recipe(recipes_book *book, const char *recipe_name) {
+    struct category_node *current_category = book->first;
+    while (current_category) {
+        // Search for the recipe in this category
+        struct recipe_node *current_recipe = current_category->recipes;
+        while (current_recipe) {
+            if (strcmp(current_recipe->name, recipe_name) == 0) {
+                // Found the recipe, return its address
+                return current_recipe;
+            }
+            current_recipe = current_recipe->next;
+        }
+        // Recipe was not found in this category, move on to the next
+        current_category = current_category->next;
+    }
+    // Recipe was not found in any category
+    return NULL;
 }
 
 void free_recipe_book(recipes_book *book) {

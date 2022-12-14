@@ -41,6 +41,8 @@ struct category_node* add_first_category(struct category_node *current, const ch
 
 struct recipe_node* add_first_recipe(struct recipe_node *current, const char *recipe);
 
+struct recipe_node* get_recipe(recipes_book *book, const char *recipe_name);
+
 void free_recipe_book(recipes_book *book);
 
 void free_recipes(struct category_node *category);

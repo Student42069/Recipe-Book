@@ -17,8 +17,8 @@ linkedList.o: linkedList.h linkedList.c
 stats.o: stats.h stats.c
 	$(CC) $(OPTIONS) -c stats.c
 
-tests: tests.c main.c linkedList.c
-	$(CC) main.c tests.c linkedList.c -lcunit -o tests
+tests: tests.c main.o linkedList.o
+	$(CC) main.o tests.c linkedList.o -lcunit -o tests
 
 tests.o: tests.h tests.c
 	$(CC) $(OPTIONS) -c tests.c
@@ -27,6 +27,7 @@ clean:
 	rm -f *.o
 	rm -f recherche
 	rm -f *.txt
+	rm -f tests
 
 valgrind:
-	valgrind --leak-check=yes -s --track-origins=yes ./recherche tests/banque1.txt
+	valgrind --leak-check=yes -s --track-origins=yes ./recherche test/banque1.txt
