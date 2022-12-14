@@ -113,3 +113,101 @@ void test_load_recipes(void) {
     struct category_node *category2 = category1->next;
     CU_ASSERT_STRING_EQUAL(category2->category, "category2");
     CU_ASSERT_EQUAL
+
+#include <CUnit/CUnit.h>
+#include <CUnit/Basic.h>
+
+void test_load_recipes(void)
+{
+    // Create a new recipes_book instance
+    recipes_book book;
+    recipes_book_initialize(&book);
+
+    // Load the recipes from the test file
+    char* file_name = "test_recipes.txt";
+    load_recipes(file_name, &book);
+
+    // Check that the correct number of categories was loaded
+    CU_ASSERT_EQUAL(book.num_categories, 4);
+
+    // Check that the "poulet" category was loaded correctly
+    struct category_node* poulet_category = book.first;
+    CU_ASSERT_STRING_EQUAL(poulet_category->category, "poulet");
+    CU_ASSERT_EQUAL(poulet_category->num_recipes, 2);
+
+    // Check that the first recipe in the "poulet" category is "Poulet au romarin"
+    struct recipe_node* poulet_recipe = poulet_category->recipes;
+    CU_ASSERT_STRING_EQUAL(poulet_recipe->name, "Poulet au romarin");
+
+    // Check that the "vegetarien" category was loaded correctly
+    struct category_node* vegetarien_category = poulet_category->next;
+    CU_ASSERT_STRING_EQUAL(vegetarien_category->category, "vegetarien");
+    CU_ASSERT_EQUAL(vegetarien_category->num_recipes, 1);
+
+    // Check that the first recipe in the "vegetarien" category is "Salade du jardin"
+    struct recipe_node* vegetar
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "CUnit/Basic.h"
+
+#include "main.h"
+#include "linkedList.h"
+
+// Test function for load_one_recipe()
+void test_load_one_recipe(void) {
+    recipes_book book;
+    recipes_book_initialize(&book);
+
+    char buffer[MAX_LINE_LENGTH] = "Banana Bread [Breakfast, Dessert]";
+
+    // Test adding a recipe to the book
+    load_one_recipe(buffer, &book);
+    CU_ASSERT_EQUAL(book.num_categories, 2);
+
+    struct category_node *current = book.first;
+    CU_ASSERT_EQUAL(strcmp(current->category, "Breakfast"), 0);
+    CU_ASSERT_EQUAL(current->num_recipes, 1);
+    CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
+
+    current = current->next;
+    CU_ASSERT_EQUAL(strcmp(current->category, "Dessert"), 0);
+    CU_ASSERT_EQUAL(current->num_recipes, 1);
+    CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
+}
+
+// Add test suites and test cases to the CUnit registry
+int main(void) {
+    CU_pSuite pSuite = NULL;
+
+    // Initial
+
+void test_load_recipe_into_categories(void) {
+    // Create a test recipe book
+    recipes_book *book;
+    recipes_book_initialize(book);
+
+    // Create a test recipe string with two categories
+    char buffer[MAX_LINE_LENGHT] = "Banana Bread [Breakfast] [Dessert]";
+
+    // Test adding a recipe to the book
+    load_recipe_into_categories("Banana Bread", buffer, book);
+
+    // Check that the book has two categories
+    CU_ASSERT_EQUAL(book->num_categories, 2);
+
+    // Check that the first category has the correct name and contains the recipe
+    struct category_node *current = book->first;
+    CU_ASSERT_EQUAL(strcmp(current->category, "Breakfast"), 0);
+    CU_ASSERT_EQUAL(current->num_recipes, 1);
+    CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
+
+    // Check that the second category has the correct name and contains the recipe
+    current = current->next;
+    CU_ASSERT_EQUAL(strcmp(current->category, "Dessert"), 0);
+    CU_ASSERT_EQUAL(current->num_recipes, 1);
+    CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
+
+    // Check that the function correctly handles an empty recipe string
+    buffer[0]

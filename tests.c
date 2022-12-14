@@ -34,8 +34,7 @@ void test_check_args() {
 
 void test_load_recipes(void) {
     // Create a recipes book to load the recipes into
-    recipes_book *book;
-    recipes_book_initialize(book);
+    recipes_book *book = recipes_book_initialize();
 
     // Create a test recipe file with two recipes
     FILE *fp = fopen("test_recipes.txt", "w");
@@ -62,8 +61,7 @@ void test_load_recipes(void) {
 }
 
 void test_load_one_recipe(void) {
-    recipes_book *book;
-    recipes_book_initialize(book);
+    recipes_book *book = recipes_book_initialize();
 
     char buffer[MAX_LINE_LENGHT] = "Banana Bread [Breakfast] [Dessert]";
 
@@ -84,8 +82,7 @@ void test_load_one_recipe(void) {
 
 void test_load_recipe_into_categories(void) {
     // Create a test recipe book
-    recipes_book *book;
-    recipes_book_initialize(book);
+    recipes_book *book = recipes_book_initialize();
 
     // Create a test recipe string with two categories
     char buffer[MAX_LINE_LENGHT] = "Banana Bread [Breakfast] [Dessert]";
@@ -120,8 +117,8 @@ void test_load_recipe_into_categories(void) {
 
 void test_load_recipe_into_one_category(void) {
     // Create a test recipe book
-    recipes_book *book;
-    recipes_book_initialize(book);
+    recipes_book *book = recipes_book_initialize();
+
 
     // Create a test recipe string with one category
     char buffer[MAX_LINE_LENGHT] = "Banana Bread [Breakfast]";
@@ -168,6 +165,19 @@ void test_run_prompt() {
  * Unit tests for linkedList.c
  * -----------------------
  */
+ void test_recipes_book_initialize(void)
+{
+    // Create a recipes_book structure to test with
+    recipes_book *book = recipes_book_initialize();
+
+    // Use CUnit assert functions to check the values of the book's fields
+    CU_ASSERT_PTR_NULL(book->first);
+    CU_ASSERT_EQUAL(book->num_categories, 0);
+
+    // Clean up any dynamically allocated memory
+    free(book);
+}
+
 
 
 int main() {
@@ -177,8 +187,15 @@ int main() {
     }
 
     // Set up the test suite.
-    CU_pSuite suite = CU_add_suite("TestSuite", NULL, NULL);
+    CU_pSuite suite = CU_add_suite("TestSuite for main.c", NULL, NULL);
     if (suite == NULL) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    // Set up the second test suite.
+    CU_pSuite suite2 = CU_add_suite("TestSuite for linkedList.c", NULL, NULL);
+    if (suite2 == NULL) {
         CU_cleanup_registry();
         return CU_get_error();
     }
@@ -193,6 +210,14 @@ int main() {
         (NULL == CU_add_test(suite, "test_load_recipe_into_categories", test_load_recipe_into_categories)) ||
         (NULL == CU_add_test(suite, "test_load_recipe_into_one_category", test_load_recipe_into_one_category)) ||
         (NULL == CU_add_test(suite, "test_get_recipe_name", test_get_recipe_name))
+    ) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    // Add the test functions to the suite2
+    if (
+        (NULL == CU_add_test(suite2, "test_recipes_book_initialize", test_recipes_book_initialize))
     ) {
         CU_cleanup_registry();
         return CU_get_error();

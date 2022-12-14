@@ -17,8 +17,8 @@ linkedList.o: linkedList.h linkedList.c
 stats.o: stats.h stats.c
 	$(CC) $(OPTIONS) -c stats.c
 
-tests: tests.c main.o linkedList.o
-	$(CC) main.o tests.c linkedList.o -lcunit -o tests
+tests: tests.o main.o linkedList.o
+	$(CC) main.o tests.o linkedList.o -lcunit -o tests
 
 tests.o: tests.h tests.c
 	$(CC) $(OPTIONS) -c tests.c

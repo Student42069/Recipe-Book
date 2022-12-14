@@ -25,7 +25,7 @@ typedef struct {
     unsigned int num_categories;
 } recipes_book;
 
-void recipes_book_initialize(recipes_book *l);
+recipes_book *recipes_book_initialize();
 
 void recipes_book_add_category(recipes_book *book, const char *category);
 

@@ -1,8 +1,10 @@
 #include "linkedList.h"
 
-void recipes_book_initialize(recipes_book *l) {
-    l->first = NULL;
-    l->num_categories = 0;
+recipes_book *recipes_book_initialize() {
+    recipes_book *book = (recipes_book*)malloc(sizeof(recipes_book));
+    book->first = NULL;
+    book->num_categories = 0;
+    return book;
 }
 
 void recipes_book_add_category(recipes_book *book, const char *category) {
