@@ -6,7 +6,6 @@
  * -----------------------
  */
 void test_open_file() {
-    // Try opening a file that exists
     FILE* fptr = open_file("test/banque_vide.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(fptr);
     fclose(fptr);
@@ -33,7 +32,6 @@ void test_check_args() {
 }
 
 void test_load_recipes(void) {
-    // Create a recipes book to load the recipes into
     recipes_book *book = recipes_book_initialize();
 
     // Create a test recipe file with two recipes
@@ -81,16 +79,13 @@ void test_load_one_recipe(void) {
 }
 
 void test_load_recipe_into_categories(void) {
-    // Create a test recipe book
     recipes_book *book = recipes_book_initialize();
 
-    // Create a test recipe string with two categories
     char buffer[MAX_LINE_LENGHT] = "Banana Bread [Breakfast] [Dessert]";
 
     // Test adding a recipe to the book
     load_recipe_into_categories("Banana Bread", buffer, book);
 
-    // Check that the book has two categories
     CU_ASSERT_EQUAL(book->num_categories, 2);
 
     // Check that the first category has the correct name and contains the recipe
@@ -107,20 +102,14 @@ void test_load_recipe_into_categories(void) {
 
     // Check that the function correctly handles an empty recipe string
     strcpy(buffer,"");
-
-    // Test adding a recipe to the book
     load_recipe_into_categories("Banana Bread", buffer, book);
-
     // Check that the book still has only 2 categories
     CU_ASSERT_EQUAL(book->num_categories, 2);
 }
 
 void test_load_recipe_into_one_category(void) {
-    // Create a test recipe book
     recipes_book *book = recipes_book_initialize();
 
-
-    // Create a test recipe string with one category
     char buffer[MAX_LINE_LENGHT] = "Banana Bread [Breakfast]";
 
     // Test adding a recipe to the book
@@ -165,20 +154,69 @@ void test_run_prompt() {
  * Unit tests for linkedList.c
  * -----------------------
  */
- void test_recipes_book_initialize(void)
-{
-    // Create a recipes_book structure to test with
+ void test_recipes_book_initialize(void) {
     recipes_book *book = recipes_book_initialize();
 
     // Use CUnit assert functions to check the values of the book's fields
     CU_ASSERT_PTR_NULL(book->first);
     CU_ASSERT_EQUAL(book->num_categories, 0);
 
-    // Clean up any dynamically allocated memory
     free(book);
 }
 
+void test_recipes_book_add_category(void) {
+    recipes_book *book = recipes_book_initialize();
 
+    // Add a new category to the book
+    recipes_book_add_category(book, "Breakfast");
+
+    // Check that the book now has one category
+    CU_ASSERT_EQUAL(book->num_categories, 1);
+
+    // Check that the category has the correct name
+    struct category_node *category = book->first;
+    CU_ASSERT_STRING_EQUAL(category->category, "Breakfast");
+}
+
+void test_recipes_book_add_recipe(void) {
+    recipes_book *book = recipes_book_initialize();
+
+    // Add a category to the book
+    recipes_book_add_category(book, "Breakfast");
+
+    // Check that the book has one category
+    CU_ASSERT_EQUAL(book->num_categories, 1);
+
+    // Check that the category has no recipes
+    struct category_node *category = book->first;
+    CU_ASSERT_EQUAL(category->num_recipes, 0);
+
+    // Add a recipe to the category
+    recipes_book_add_recipe(book, "Breakfast", "Banana Bread");
+
+    // Check that the category now has one recipe
+    CU_ASSERT_EQUAL(category->num_recipes, 1);
+    CU_ASSERT_STRING_EQUAL(category->recipes->name, "Banana Bread");
+}
+
+void test_free_recipe_book(void) {
+    recipes_book *book = recipes_book_initialize();
+
+    // Add some categories and recipes to the book
+    recipes_book_add_category(book, "Breakfast");
+    recipes_book_add_recipe(book, "Breakfast", "Banana Bread");
+    recipes_book_add_recipe(book, "Breakfast", "Omelette");
+
+    recipes_book_add_category(book, "Dinner");
+    recipes_book_add_recipe(book, "Dinner", "Spaghetti");
+    recipes_book_add_recipe(book, "Dinner", "Pork Chops");
+
+    // Call the free_recipe_book function
+    free_recipe_book(book);
+
+    // Check that all memory used by the book has been deallocated
+    CU_ASSERT_PTR_NULL(book->first);
+}
 
 int main() {
     // Initialize the CUnit test registry.
@@ -217,7 +255,10 @@ int main() {
 
     // Add the test functions to the suite2
     if (
-        (NULL == CU_add_test(suite2, "test_recipes_book_initialize", test_recipes_book_initialize))
+        (NULL == CU_add_test(suite2, "test_recipes_book_initialize", test_recipes_book_initialize)) ||
+        (NULL == CU_add_test(suite2, "test_recipes_book_add_category", test_recipes_book_add_category)) ||
+        (NULL == CU_add_test(suite2, "test_recipes_book_add_recipe", test_recipes_book_add_recipe)) ||
+        (NULL == CU_add_test(suite2, "test_free_recipe_book", test_free_recipe_book))
     ) {
         CU_cleanup_registry();
         return CU_get_error();

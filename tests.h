@@ -21,6 +21,10 @@ void test_get_recipe_name(void);
 
 /**
  * -----------------------
- * Unit tests for main.c
+ * Unit tests for linkedList.c
  * -----------------------
  */
+void test_recipes_book_initialize(void);
+void test_recipes_book_add_category(void);
+void test_recipes_book_add_recipe(void);
+void test_free_recipe_book(void);
