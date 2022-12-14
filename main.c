@@ -92,21 +92,21 @@ void run_prompt() {
     return;
 }
 
-int main(int argc, char *argv[]) {
-    check_args(argc, argv);
+// int main(int argc, char *argv[]) {
+//     check_args(argc, argv);
     
-    recipes_book *book = (recipes_book*) malloc(sizeof(recipes_book));
-    recipes_book_initialize(book);
+//     recipes_book *book = (recipes_book*) malloc(sizeof(recipes_book));
+//     recipes_book_initialize(book);
     
-    load_recipes(argv[1], book);
-    print_book(book);
+//     load_recipes(argv[1], book);
+//     print_book(book);
 
-    if (argc == 4)
-        produce_stats();
+//     // if (argc == 4)
+//     //     produce_stats();
     
-    run_prompt();
+//     run_prompt();
 
-    free_recipe_book(book);
+//     free_recipe_book(book);
 
-    return 0;
-}
+//     return 0;
+// }

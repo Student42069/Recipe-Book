@@ -4,7 +4,6 @@
 
 #include "linkedList.h"
 #include "stats.h"
-#include "tests.h"
 
 #define USAGE "\
 Usage: %s <FICHIER TEXTE CONTENANT LES RECETTES>\n\
