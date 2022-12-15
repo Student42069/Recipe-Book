@@ -13,6 +13,8 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
     if (current == NULL) {
         current = (struct category_node*)malloc(sizeof(struct category_node));
 
+        if(!(current->category = malloc(strlen(category) + 1)))
+            exit(7);
         strcpy(current->category, category);
 
         current->num_recipes = 0;
@@ -109,6 +111,8 @@ void add_category(struct category_node *previous, const char *category) {
     struct category_node* new_node;
 	new_node = (struct category_node*) malloc(sizeof(struct category_node));
 
+    if(!(new_node->category = malloc(strlen(category) + 1)))
+        exit(7);
     strcpy(new_node->category, category);
     new_node->num_recipes = 0;
     new_node->recipes = NULL;
@@ -120,6 +124,8 @@ struct category_node* add_first_category(struct category_node *current, const ch
     struct category_node* new_node;
 	new_node = (struct category_node*)malloc(sizeof(struct category_node));
 
+    if(!(new_node->category = malloc(strlen(category) + 1)))
+        exit(7);
     strcpy(new_node->category, category);
     new_node->num_recipes = 0;
     new_node->recipes = NULL;
@@ -163,6 +169,7 @@ void free_recipe_book(recipes_book *book) {
         previous = current;
         current = current->next;
         free_recipes(previous);
+        free(previous->category);
         free(previous);
     }
     free(book);
