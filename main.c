@@ -146,7 +146,9 @@ void run_prompt(recipes_book *book) {
         printf("Entrez votre critère de recherche : ");
         scanf ("%[^\n]%*c", query);
 
-        if (strchr(query, ' ') == NULL) {
+        if (strcmp(query, "exit") == 0) {
+            break;
+        } else if (strchr(query, ' ') == NULL) {
             search_by_category(book, query);
         } else {
             char *keyword = strchr(query, ' ') + 1;

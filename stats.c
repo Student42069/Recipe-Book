@@ -1,4 +1,3 @@
-#include <ctype.h>
 #include "stats.h"
 #include "main.h"
 
@@ -123,40 +122,6 @@ char most_frequent_letter(char *file_name) {
 
     return letter;
 }
-
-// char most_frequent_letter(char *recipes_file_name) {
-//     FILE *file = open_file(recipes_file_name, "r");
-
-//     char *words[num_words(file_name)];
-//     // Initialize an array to count the number of occurrences of each letter
-//     int counts[26] = {0};
-
-//     // Read each line from the file
-//     char buffer[MAX_LINE_LENGHT];
-
-//     unsigned int i;
-//     while (fgets(buffer, MAX_LINE_LENGHT, file) != NULL) {
-//         for (i = 0; i < (unsigned int) strlen(buffer); i++) {
-//             if (isalpha(buffer[i])) {
-//                 counts[to_lower(buffer[i]) - 'a']++;
-//             }
-//         }
-//     }
-
-//     close_file(file);
-
-//     // Find the most frequent letter
-//     int max = 0;
-//     char letter = 'a';
-//     for (int i = 0; i < 26; i++) {
-//         if (counts[i] > max) {
-//             max = counts[i];
-//             letter = 'a' + i;
-//         }
-//     }
-
-//     return letter;
-// }
 
 int num_categories(recipes_book *book) {
     return book->num_categories;
