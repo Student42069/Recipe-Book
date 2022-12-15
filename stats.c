@@ -10,8 +10,8 @@ void produce_stats(recipes_book *book, char *file_name, char *recipes_file_name)
     // fprintf(file, "La lettre la plus fréquente (sans considérer les doublons): %c\n", most_frequent_letter(recipes_file_name));
     fprintf(file, "Le nombre de catégories: %d\n", num_categories(book));
     fprintf(file, "Le nombre de recettes: %d\n", num_recipes(book));
-    // fprintf(file, "La catégorie qui a le plus grand nombre de recettes: %s\n", category_with_most_recipes(book));
-    // fprintf(file, "La recette la plus longue (en termes de nombre de caractères): %s\n", longest_recipe(book));
+    fprintf(file, "La catégorie qui a le plus grand nombre de recettes: %s\n", category_with_most_recipes(book));
+    fprintf(file, "La recette la plus longue (en termes de nombre de caractères): %s\n", longest_recipe(book));
 
     close_file(file);
 }
@@ -87,4 +87,39 @@ int num_recipes(recipes_book *book) {
     }
 
     return num_recipes;
+}
+
+char *category_with_most_recipes(recipes_book *book) {
+    char *category_with_most_recipes = NULL;
+    unsigned int max_num_recipes = 0;
+    struct category_node *current_category = book->first;
+
+    while (current_category != NULL) {
+        if (current_category->num_recipes > (unsigned int) max_num_recipes) {
+        category_with_most_recipes = current_category->category;
+        max_num_recipes = current_category->num_recipes;
+        }
+        current_category = current_category->next;
+    }
+
+    return category_with_most_recipes;
+}
+
+char *longest_recipe(recipes_book *book) {
+    char *longest_recipe = NULL;
+    unsigned int max_recipe_length = 0;
+    struct category_node *current_category = book->first;
+    
+    while (current_category != NULL) {
+        struct recipe_node *current_recipe = current_category->recipes;
+        while (current_recipe != NULL) {
+            if ((unsigned int) strlen(current_recipe->name) > max_recipe_length) {
+                longest_recipe = current_recipe->name;
+                max_recipe_length = strlen(current_recipe->name);
+            }
+            current_recipe = current_recipe->next;
+        }
+        current_category = current_category->next;
+    }
+    return longest_recipe;
 }
