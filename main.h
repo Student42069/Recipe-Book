@@ -129,3 +129,5 @@ void load_recipe_into_one_category(char *buffer, recipes_book *book, char *name,
  * @param buffer the input string containing the recipe name
  */
 void get_recipe_name(char *name, char *buffer);
+
+void run_prompt(recipes_book *book);

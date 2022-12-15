@@ -87,25 +87,99 @@ void get_recipe_name(char *name, char *buffer) {
     name[strlen(buffer) - strlen(strchr(buffer, '['))] = '\0';
 }
 
-void run_prompt() {
-    // puts("Okok !");
-    return;
+// void run_prompt(recipes_book *book) {
+//     char query[MAX_LINE_LENGHT];
+//     while (1) {
+//         printf("Entrez votre critère de recherche : ");
+//         scanf("%s", query);
+//         struct category_node *current = book->first;
+//         while (current && strcmp(current->category, query) != 0) {
+//             current = current->next;
+//         }
+
+//         if (!current)
+//             printf("Catégorie inexistante.\n");
+
+//         // printf("Recipes in the %s category:\n", current->category);
+//         struct recipe_node *recipe = current->recipes;
+//         while (recipe) {
+//             printf("- %s\n", recipe->name);
+//             recipe = recipe->next;
+//         }
+//     }
+// }
+void search_by_category(recipes_book *book, char *category) {
+    struct category_node *current = book->first;
+    while (current) {
+        if (strcmp(current->category, category) == 0) {
+            struct recipe_node *recipe = current->recipes;
+            while (recipe) {
+                printf("%s\n", recipe->name);
+                recipe = recipe->next;
+            }
+            return;
+        }
+        current = current->next;
+    }
+    printf("La catégorie '%s' n'existe pas.\n", category);
 }
 
-// int main(int argc, char *argv[]) {
-//     check_args(argc, argv);
-    
-//     recipes_book *book = recipes_book_initialize();
-    
-//     load_recipes(argv[1], book);
-//     print_book(book);
+void search_by_category_and_keyword(recipes_book *book, char *category, char *keyword) {
+    struct category_node *current = book->first;
+    while (current) {
+        if (strcmp(current->category, category) == 0) {
+            struct recipe_node *recipe = current->recipes;
+            int found = 0;
+            while (recipe) {
+                if (strstr(recipe->name, keyword) != NULL) {
+                    printf("%s\n", recipe->name);
+                    found = 1;
+                }
+                recipe = recipe->next;
+            }
+            if (found == 0) {
+                printf("Aucune recette trouvée pour la catégorie '%s' et le mot-clé '%s'.\n", category, keyword);
+            }
+            return;
+        }
+        current = current->next;
+    }
+    printf("La catégorie '%s' n'existe pas.\n", category);
+}
 
-//     // if (argc == 4)
-//     //     produce_stats();
+void run_prompt(recipes_book *book) {
+    char query[MAX_LINE_LENGHT];
+    while (1) {
+        printf("Entrez votre critère de recherche : ");
+        scanf("%s", query);
+
+        if (strcmp(query, "exit") == 0) {
+            break;
+        } else if (strchr(query, ' ') == NULL) {
+            search_by_category(book, query);
+        } else {
+            char *keyword = strchr(query, ' ') + 1;
+            *strchr(query, ' ') = '\0';
+            search_by_category_and_keyword(book, query, keyword);
+        }
+    }
+}
+
+
+int main(int argc, char *argv[]) {
+    check_args(argc, argv);
     
-//     run_prompt();
+    recipes_book *book = recipes_book_initialize();
+    
+    load_recipes(argv[1], book);
+    // print_book(book);
 
-//     free_recipe_book(book);
+    // if (argc == 4)
+    //     produce_stats();
+    
+    run_prompt(book);
 
-//     return 0;
-// }
+    free_recipe_book(book);
+
+    return 0;
+}
