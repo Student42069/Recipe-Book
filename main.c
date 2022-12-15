@@ -79,8 +79,6 @@ void load_recipe_into_one_category(char *buffer, recipes_book *book, char *name,
     for (int j = start + 1; j < end; j++)
         category_name[counter++] = buffer[j];
     category_name[counter] = '\0';
-    // to_lower(category_name);
-    // to_lower(name);
     recipes_book_add_recipe(book, category_name, name);
 }
 
@@ -171,8 +169,8 @@ int main(int argc, char *argv[]) {
     load_recipes(argv[1], book);
     // print_book(book);
 
-    // if (argc == 4)
-    //     produce_stats();
+    if (argc == 4)
+        produce_stats(book, argv[3], argv[1]);
     
     run_prompt(book);
 

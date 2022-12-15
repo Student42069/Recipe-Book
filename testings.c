@@ -233,3 +233,88 @@ void run_prompt(recipes_book *book) {
         }
     }
 }
+
+//-------------------------------------------------
+int num_unique_words(char *file_name)
+{
+  // Open the input file
+  FILE *file = open_file(file_name, "r");
+
+  // Create a linked list to store the unique words
+  linked_list *list = linked_list_initialize();
+
+  // Initialize the unique word count
+  int count = 0;
+
+  // Read each line from the file
+  char buffer[MAX_LINE_LENGHT];
+  while (fgets(buffer, MAX_LINE_LENGHT, file) != NULL)
+  {
+    // Split the line into words
+    char *word = strtok(buffer, " ");
+
+    // Iterate over the words in the line
+    while (word != NULL)
+    {
+      // Check if the current word is already in the list of unique words
+      if (!linked_list_contains(list, word))
+      {
+        // Add the word to the list of unique words
+        linked_list_add(list, word);
+        count++;
+      }
+
+      // Move to the next word in the line
+      word = strtok(NULL, " ");
+    }
+  }
+
+  // Free the memory allocated for the linked list
+  linked_list_free(list);
+
+  // Close the input file
+  close_file(file);
+
+  // Return the number of unique words
+  return count;
+}
+//Note that this implementation uses a linked list data structure to store the unique words. You will need to implement the linked_list and linked_list_node structures, as well as the functions linked_list_initialize(), linked_list_add(), linked_list_contains(), and linked_list_free() to use this implementation. You can refer to the linked list data structure documentation for more information on how to implement these functions.
+//===============================================
+int num_unique_words(char *recipes_file_name)
+{
+  // Open the input file
+  FILE *file = open_file(recipes_file_name, "r");
+
+  // Initialize a set to store the unique words
+  set *words = set_initialize();
+
+  // Read each line from the file
+  char buffer[MAX_LINE_LENGHT];
+  while (fgets(buffer, MAX_LINE_LENGHT, file) != NULL)
+  {
+    // Iterate over the words in the line
+    char *word = strtok(buffer, " ");
+    while (word != NULL)
+    {
+      // Add the word to the set
+      set_add(words, word);
+
+      // Get the next word
+      word = strtok(NULL, " ");
+    }
+  }
+
+  // Close the input file
+  close_file(file);
+
+  // Get the number of unique words in the set
+  int num_words = set_size(words);
+
+  // Free the set
+  set_free(words);
+
+  // Return the number of unique words in the file
+  return num_words;
+}
+//Note that this implementation uses the strtok() function from the string.h header file to iterate over the words in each line, and the set_add(), set_size(), and set_free() functions from a set implementation to store the unique words and get their count. It also uses the open_file() and close_file() functions from the previous example to open and close the input file. Finally, it iterates over the words in each line and adds them to the set, and then returns the number of unique words in the set.
+//=====================================

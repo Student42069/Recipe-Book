@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-// #include "main.h"
 #define MAX_LINE_LENGHT 120
 
 #ifndef LINKEDLIST_H_INCLUDED

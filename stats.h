@@ -6,54 +6,63 @@
 
 #ifndef STATS_H_INCLUDED
 #define STATS_H_INCLUDED
-void produce_stats(recipes_book *book, char *file_name);
+
+/**
+ * Saves the statistics for a recipes book to a text file.
+ *
+ * @param book a pointer to the recipes book to save the statistics for
+ * @param file_name the name of the file to save the statistics to
+ * @param recipes_file_name the name of the file the recipes were loaded from
+ */
+void produce_stats(recipes_book *book, char *file_name, char *recipes_file_name);
+
 /**
  * Gets the number of lines in the input file
  *
- * @param book the recipes book
+ * @param file_name the file name of the recipes file
  *
  * @return the number of lines in the input file
  */
-int num_lines(recipes_book *book);
+int num_lines(char *file_name);
 
 /**
  * Gets the number of unique words in the input file
  *
- * @param book the recipes book
+ * @param recipes_file_name the name of the file the recipes were loaded from
  *
  * @return the number of unique words in the input file
  */
-int num_unique_words(recipes_book *book);
+int num_unique_words(char *recipes_file_name);
 
 /**
  * Gets the number of words (including duplicates) in the input file
  *
- * @param book the recipes book
+ * @param recipes_file_name the name of the file the recipes were loaded from
  *
  * @return the number of unique words in the input file
  */
-int num_words(recipes_book *book);
+int num_words(char *recipes_file_name);
 
 /**
  * Gets the most frequent letter in the input file (ignoring duplicates)
  *
- * @param book the recipes book
+ * @param recipes_file_name the name of the file the recipes were loaded from
  *
  * @return the most frequent letter in the input file (ignoring duplicates)
  */
-char most_frequent_letter(recipes_book *book);
+char most_frequent_letter(char *recipes_file_name);
 
 /**
- * Gets the number of categories in the input file
+ * Gets the number of categories in the recipe book
  *
- * @param book the recipes book
+ * @param book the recipe book
  *
  * @return the number of categories in the input file
  */
 int num_categories(recipes_book *book);
 
 /**
- * Gets the number of recipes in the input file
+ * Gets the number of recipes in the recipe book
  *
  * @param book the recipes book
  *
