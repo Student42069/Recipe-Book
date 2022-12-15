@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include "stats.h"
 #include "main.h"
 
@@ -7,9 +8,9 @@ void produce_stats(recipes_book *book, char *file_name, char *recipes_file_name)
     fprintf(file, "Le nombre de lignes dans le fichier d'entrée: %d\n", num_lines(recipes_file_name));
     fprintf(file, "Le nombre de mots sans doublons: %d\n", num_unique_words(recipes_file_name));
     fprintf(file, "Le nombre de mots avec doublons: %d\n", num_words(recipes_file_name));
-    // fprintf(file, "La lettre la plus fréquente (sans considérer les doublons): %c\n", most_frequent_letter(recipes_file_name));
+    fprintf(file, "La lettre la plus fréquente (sans considérer les doublons): %c\n", most_frequent_letter(recipes_file_name));
     fprintf(file, "Le nombre de catégories: %d\n", num_categories(book));
-    fprintf(file, "Le nombre de recettes: %d\n", num_recipes(book));
+    fprintf(file, "Le nombre de recettes: %d\n", num_lines(recipes_file_name));
     fprintf(file, "La catégorie qui a le plus grand nombre de recettes: %s\n", category_with_most_recipes(book));
     fprintf(file, "La recette la plus longue (en termes de nombre de caractères): %s\n", longest_recipe(book));
 
@@ -30,7 +31,7 @@ int num_lines(char *file_name) {
 
 int num_unique_words(char *file_name) {
     FILE *file = open_file(file_name, "r");
-    char *words[MAX_LINE_LENGHT];
+    char *words[num_words(file_name)];
     int count = 0;
     char buffer[MAX_LINE_LENGHT];
 
@@ -73,20 +74,92 @@ int num_words(char *recipes_file_name) {
     return count;
 }
 
-int num_categories(recipes_book *book) {
-    return book->num_categories;
-}
+char most_frequent_letter(char *file_name) {
+    FILE *file = open_file(file_name, "r");
+    char *words[num_words(file_name)];
+    unsigned int count = 0;
+    char buffer[MAX_LINE_LENGHT];
 
-int num_recipes(recipes_book *book) {
-    int num_recipes = 0;
+    while (fgets(buffer, MAX_LINE_LENGHT, file) != NULL) {
+        char *word = strtok(buffer, " ");
 
-    struct category_node *current_category = book->first;
-    while (current_category != NULL) {
-    num_recipes += current_category->num_recipes;
-    current_category = current_category->next;
+        while (word != NULL) {
+            int found = 0;
+            unsigned int i;
+            for (i = 0; i < count; i++)
+                if (strcmp(word, words[i]) == 0) {
+                    found = 1;
+                    break;
+                }
+
+            if (!found) 
+                words[count++] = word;
+
+            word = strtok(NULL, " ");
+        }
     }
 
-    return num_recipes;
+    close_file(file);
+
+    unsigned int i;
+    unsigned int j;
+    int counts[26] = {0};
+    for (i = 0; i < count; ++i) {
+        for (j = 0; j < (unsigned int) strlen(words[i]); ++j) {
+            if (isalpha(words[i][j])) {
+                counts[tolower(words[i][j]) - 'a']++;
+            }
+        }
+    }
+
+    int max = 0;
+    char letter = 'a';
+    for (int i = 0; i < 26; i++) {
+        if (counts[i] > max) {
+            max = counts[i];
+            letter = 'a' + i;
+        }
+    }
+
+    return letter;
+}
+
+// char most_frequent_letter(char *recipes_file_name) {
+//     FILE *file = open_file(recipes_file_name, "r");
+
+//     char *words[num_words(file_name)];
+//     // Initialize an array to count the number of occurrences of each letter
+//     int counts[26] = {0};
+
+//     // Read each line from the file
+//     char buffer[MAX_LINE_LENGHT];
+
+//     unsigned int i;
+//     while (fgets(buffer, MAX_LINE_LENGHT, file) != NULL) {
+//         for (i = 0; i < (unsigned int) strlen(buffer); i++) {
+//             if (isalpha(buffer[i])) {
+//                 counts[to_lower(buffer[i]) - 'a']++;
+//             }
+//         }
+//     }
+
+//     close_file(file);
+
+//     // Find the most frequent letter
+//     int max = 0;
+//     char letter = 'a';
+//     for (int i = 0; i < 26; i++) {
+//         if (counts[i] > max) {
+//             max = counts[i];
+//             letter = 'a' + i;
+//         }
+//     }
+
+//     return letter;
+// }
+
+int num_categories(recipes_book *book) {
+    return book->num_categories;
 }
 
 char *category_with_most_recipes(recipes_book *book) {

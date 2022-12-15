@@ -1,0 +1,8 @@
+Le nombre de lignes dans le fichier d'entrée: 1
+Le nombre de mots sans doublons: 6
+Le nombre de mots avec doublons: 6
+La lettre la plus fréquente (sans considérer les doublons): z
+Le nombre de catégories: 3
+Le nombre de recettes: 1
+La catégorie qui a le plus grand nombre de recettes: Italian
+La recette la plus longue (en termes de nombre de caractères): Spaghetti Bolognese

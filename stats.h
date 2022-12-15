@@ -64,6 +64,9 @@ int num_categories(recipes_book *book);
 /**
  * Gets the number of recipes in the recipe book
  *
+ * Isn't used or implemented because it is the same 
+ * as the number of lines in the file
+ *
  * @param book the recipes book
  *
  * @return the number of recipes in the input file
