@@ -81,6 +81,11 @@ Les cas d'erreur gérés sont :
 
 1. Fichier non trouvé
 
+Les cas d'erreur non-gérés connus sont :
+
+1. Si le fichier de recettes se termine par plus d'un '\n'
+2. Si seulement '\n' est entree au clavier
+
 ## Tests
 
 Entrez `make test` pour exécuter la suite de tests automatiques.

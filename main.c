@@ -79,12 +79,25 @@ void load_recipe_into_one_category(char *buffer, recipes_book *book, char *name,
     for (int j = start + 1; j < end; j++)
         category_name[counter++] = buffer[j];
     category_name[counter] = '\0';
+    // to_lower(category_name);
+    // to_lower(name);
     recipes_book_add_recipe(book, category_name, name);
 }
 
 void get_recipe_name(char *name, char *buffer) {
     strncat(name, buffer, strlen(buffer) - strlen(strchr(buffer, '[')) - 1);
     name[strlen(buffer) - strlen(strchr(buffer, '['))] = '\0';
+}
+
+int is_upper(char c) {
+    return c >= 'A' && c <= 'Z';
+}
+
+void to_lower(char *str) {
+    int i;
+    for (i = 0; str[i]; i++)
+    if (is_upper(str[i]))
+        str[i] = str[i] - 'A' + 'a';
 }
 
 void search_by_category(recipes_book *book, char *category) {
@@ -110,15 +123,18 @@ void search_by_category_and_keyword(recipes_book *book, char *category, char *ke
             struct recipe_node *recipe = current->recipes;
             int found = 0;
             while (recipe) {
-                if (strstr(recipe->name, keyword) != NULL) {
+                to_lower(keyword);
+                char recipe_name[MAX_LINE_LENGHT]= {'\0'};
+                strcpy(recipe_name, recipe->name);
+                to_lower(recipe_name);
+                if (strstr(recipe_name, keyword) != NULL) {
                     printf("%s\n", recipe->name);
                     found = 1;
                 }
                 recipe = recipe->next;
             }
-            if (found == 0) {
+            if (found == 0)
                 printf("Aucune recette trouvée pour la catégorie '%s' et le mot-clé '%s'.\n", category, keyword);
-            }
             return;
         }
         current = current->next;
@@ -130,10 +146,7 @@ void run_prompt(recipes_book *book) {
     char query[MAX_LINE_LENGHT];
     while (1) {
         printf("Entrez votre critère de recherche : ");
-        // scanf("%s", query);
         scanf ("%[^\n]%*c", query);
-        // printf("This is it : %s\n", query);
-        // scanf("%100[^\n]", query);
 
         if (strchr(query, ' ') == NULL) {
             search_by_category(book, query);

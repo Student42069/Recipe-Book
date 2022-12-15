@@ -26,9 +26,6 @@ Si aucun argument n'est fourni,\n\
 le programme affiche ce message et se termine.\n\
 "
 
-// #define MAX_LINE_LENGHT 120
-
-
 enum error {
     OK                      = 0,
     ERREUR_NB_ARGS          = 1,
@@ -161,3 +158,19 @@ void search_by_category_and_keyword(recipes_book *book, char *category, char *ke
  * @param book The recipes book to search.
  */
 void run_prompt(recipes_book *book);
+
+/**
+ * Checks if a character is an uppercase letter
+ *
+ * @param c the character to check
+ *
+ * @return non-zero if c is an uppercase letter, zero otherwise
+ */
+int is_upper(char c);
+
+/**
+ * Convert a string to lowercase
+ *
+ * @param str the string to convert
+ */
+void to_lower(char *str);
