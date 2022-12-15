@@ -120,7 +120,7 @@ char *category_with_most_recipes(recipes_book *book) {
 
     while (current_category != NULL) {
         if (current_category->num_recipes > (unsigned int) max_num_recipes) {
-            category_with_most_recipes = current_category->category;
+            category_with_most_recipes = current_category->name;
             max_num_recipes = current_category->num_recipes;
         }
         current_category = current_category->next;

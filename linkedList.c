@@ -13,9 +13,9 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
     if (current == NULL) {
         current = (struct category_node*)malloc(sizeof(struct category_node));
 
-        if(!(current->category = malloc(strlen(category) + 1)))
+        if(!(current->name = malloc(strlen(category) + 1)))
             exit(7);
-        strcpy(current->category, category);
+        strcpy(current->name, category);
 
         current->num_recipes = 0;
         current->recipes = NULL;
@@ -29,9 +29,9 @@ void recipes_book_add_category(recipes_book *book, const char *category) {
     }
 
     while (current) {
-        if (strcmp(current->category, category) == 0) {
+        if (strcmp(current->name, category) == 0) {
             return;
-        } else if (strcmp(current->category, category) < 0) {
+        } else if (strcmp(current->name, category) < 0) {
             previous = current;
             current = current->next;
         } else {
@@ -52,7 +52,7 @@ void recipes_book_add_recipe(recipes_book *book, const char *category, const cha
     recipes_book_add_category(book, category);
     struct category_node *current = book->first;
 
-    while(strcmp(current->category, category) != 0) {
+    while(strcmp(current->name, category) != 0) {
         current = current->next;
     }
 
@@ -111,9 +111,9 @@ void add_category(struct category_node *previous, const char *category) {
     struct category_node* new_node;
 	new_node = (struct category_node*) malloc(sizeof(struct category_node));
 
-    if(!(new_node->category = malloc(strlen(category) + 1)))
+    if(!(new_node->name = malloc(strlen(category) + 1)))
         exit(7);
-    strcpy(new_node->category, category);
+    strcpy(new_node->name, category);
     new_node->num_recipes = 0;
     new_node->recipes = NULL;
     new_node->next = previous->next;
@@ -124,9 +124,9 @@ struct category_node* add_first_category(struct category_node *current, const ch
     struct category_node* new_node;
 	new_node = (struct category_node*)malloc(sizeof(struct category_node));
 
-    if(!(new_node->category = malloc(strlen(category) + 1)))
+    if(!(new_node->name = malloc(strlen(category) + 1)))
         exit(7);
-    strcpy(new_node->category, category);
+    strcpy(new_node->name, category);
     new_node->num_recipes = 0;
     new_node->recipes = NULL;
     new_node->next = current;
@@ -169,7 +169,7 @@ void free_recipe_book(recipes_book *book) {
         previous = current;
         current = current->next;
         free_recipes(previous);
-        free(previous->category);
+        free(previous->name);
         free(previous);
     }
     free(book);
@@ -193,10 +193,10 @@ void print_book(recipes_book *book) {
 
     printf("\nPrinting book...\n=====================\n");
 	struct category_node *current = book->first;
-    // printf("%s \n", current->category);
+    // printf("%s \n", current->name);
 
 	while(current) {
-		printf("Category : %s\n",current->category);
+		printf("Category : %s\n",current->name);
         print_recipes(current->recipes);
         printf("\n=====================\n");
 		current = current->next;

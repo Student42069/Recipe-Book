@@ -8,7 +8,7 @@
 #define LINKEDLIST_H_INCLUDED
 
 struct category_node {
-    char *category;
+    char *name;
     unsigned int num_recipes;
     struct recipe_node *recipes;
     struct category_node *next;
