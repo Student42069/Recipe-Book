@@ -1,0 +1,9 @@
+Le nombre de lignes dans le fichier d'entrée: 11
+Le nombre de mots sans doublons: 26
+Le nombre de mots avec doublons: 59
+La lettre la plus fréquente (sans considérer les doublons): e
+Le nombre de catégories: 11
+Le nombre de recettes: 11
+La catégorie la plus populaire (la plus fréquente): American
+La catégorie qui a le plus grand nombre de recettes: American
+La recette la plus longue (en termes de nombre de caractères): Cheddar Broccoli Soup
