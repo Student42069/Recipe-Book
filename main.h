@@ -1,6 +1,7 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <strings.h>
 
 #include "linkedList.h"
 #include "stats.h"
@@ -130,4 +131,33 @@ void load_recipe_into_one_category(char *buffer, recipes_book *book, char *name,
  */
 void get_recipe_name(char *name, char *buffer);
 
+/**
+ * Searches the given recipes book for the specified category and prints the names of all the
+ * recipes in that category.
+ *
+ * @param book The recipes book to search.
+ * @param category The category to search for.
+ */
+void search_by_category(recipes_book *book, char *category);
+
+/**
+ * Searches the given recipes book for the specified category and keyword, and prints the names of all
+ * the recipes in that category that contain the keyword in their name.
+ *
+ * @param book The recipes book to search.
+ * @param category The category to search for.
+ * @param keyword The keyword to search for in the recipe names.
+ */
+void search_by_category_and_keyword(recipes_book *book, char *category, char *keyword);
+
+/**
+ * Prompts the user for a search query and performs the specified 
+ * search. The search query can be either the name of a 
+ * category (to search for all the recipes in that category) 
+ * or the name of acategory followed by a keyword (to search for
+ * all the recipes in that category that contain the keyword 
+ * in their name). The search is always case-insensitive.
+ *
+ * @param book The recipes book to search.
+ */
 void run_prompt(recipes_book *book);

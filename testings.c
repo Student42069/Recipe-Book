@@ -211,3 +211,25 @@ void test_load_recipe_into_categories(void) {
 
     // Check that the function correctly handles an empty recipe string
     buffer[0]
+
+void run_prompt(recipes_book *book) {
+    char query[MAX_LINE_LENGHT];
+    while (1) {
+        printf("Entrez votre critère de recherche :\n");
+        scanf("%[^\n]", query);
+
+        if (strcmp(query, "exit") == 0) {
+            break;
+        } else if (strchr(query, ' ') == NULL) {
+            search_by_category(book, query);
+        } else {
+            char *keyword = strchr(query, ' ') + 1;
+            *strchr(query, ' ') = '\0';
+            if (strchr(keyword, ' ') != NULL) {
+                printf("Critère de recherche invalide.\n");
+            } else {
+               search_by_category_and_keyword(book, query, keyword);
+            }
+        }
+    }
+}

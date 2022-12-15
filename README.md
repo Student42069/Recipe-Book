@@ -104,3 +104,4 @@ Les  tests réussissent.
 * [fopen()](hhttps://www.tutorialspoint.com/c_standard_library/c_function_fopen.htm)
 * [Linked list in C](https://www.scaler.com/topics/c/linked-list-in-c/)
 * [Free nodes in linked list](https://stackoverflow.com/questions/6417158/c-how-to-free-nodes-in-the-linked-list)
+* [Read full line from command line](https://stackoverflow.com/a/6282236)

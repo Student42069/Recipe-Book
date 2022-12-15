@@ -87,31 +87,10 @@ void get_recipe_name(char *name, char *buffer) {
     name[strlen(buffer) - strlen(strchr(buffer, '['))] = '\0';
 }
 
-// void run_prompt(recipes_book *book) {
-//     char query[MAX_LINE_LENGHT];
-//     while (1) {
-//         printf("Entrez votre critère de recherche : ");
-//         scanf("%s", query);
-//         struct category_node *current = book->first;
-//         while (current && strcmp(current->category, query) != 0) {
-//             current = current->next;
-//         }
-
-//         if (!current)
-//             printf("Catégorie inexistante.\n");
-
-//         // printf("Recipes in the %s category:\n", current->category);
-//         struct recipe_node *recipe = current->recipes;
-//         while (recipe) {
-//             printf("- %s\n", recipe->name);
-//             recipe = recipe->next;
-//         }
-//     }
-// }
 void search_by_category(recipes_book *book, char *category) {
     struct category_node *current = book->first;
     while (current) {
-        if (strcmp(current->category, category) == 0) {
+        if (strcasecmp(current->category, category) == 0) {
             struct recipe_node *recipe = current->recipes;
             while (recipe) {
                 printf("%s\n", recipe->name);
@@ -127,7 +106,7 @@ void search_by_category(recipes_book *book, char *category) {
 void search_by_category_and_keyword(recipes_book *book, char *category, char *keyword) {
     struct category_node *current = book->first;
     while (current) {
-        if (strcmp(current->category, category) == 0) {
+        if (strcasecmp(current->category, category) == 0) {
             struct recipe_node *recipe = current->recipes;
             int found = 0;
             while (recipe) {
@@ -151,20 +130,25 @@ void run_prompt(recipes_book *book) {
     char query[MAX_LINE_LENGHT];
     while (1) {
         printf("Entrez votre critère de recherche : ");
-        scanf("%s", query);
+        // scanf("%s", query);
+        scanf ("%[^\n]%*c", query);
+        // printf("This is it : %s\n", query);
+        // scanf("%100[^\n]", query);
 
-        if (strcmp(query, "exit") == 0) {
-            break;
-        } else if (strchr(query, ' ') == NULL) {
+        if (strchr(query, ' ') == NULL) {
             search_by_category(book, query);
         } else {
             char *keyword = strchr(query, ' ') + 1;
             *strchr(query, ' ') = '\0';
-            search_by_category_and_keyword(book, query, keyword);
+            if (strchr(keyword, ' ') != NULL) {
+                printf("Critère de recherche invalide.\n");
+            } else {
+                search_by_category_and_keyword(book, query, keyword);
+            }
         }
+        strcpy(query, "");
     }
 }
-
 
 int main(int argc, char *argv[]) {
     check_args(argc, argv);
