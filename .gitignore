@@ -1,3 +1,4 @@
 *.o
 recherche
 testing.c
+.txt
