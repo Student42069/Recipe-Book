@@ -147,38 +147,3 @@ char *longest_recipe(recipes_book *book) {
     }
     return longest_recipe;
 }
-
-
-// void iterate_on_recipes(char **longest_recipe, unsigned int max_recipe_length, struct recipe_node *current_recipe) {
-    
-//     while (current_recipe != NULL) {
-//         if ((unsigned int) strlen(current_recipe->name) > max_recipe_length) {
-//             longest_recipe = &current_recipe->name;
-//             max_recipe_length = strlen(current_recipe->name);
-//         }
-//         current_recipe = current_recipe->next;
-//     }
-
-// }
-
-// void iterate_on_categories(char **longest_recipe, unsigned int max_recipe_length, struct category_node *current_category) {
-    
-//     while (current_category != NULL) {
-//         struct recipe_node *current_recipe = current_category->recipes;
-//         iterate_on_recipes(longest_recipe, max_recipe_length, current_recipe);
-//         current_category = current_category->next;
-//     }
-// }
-
-
-
-// char *longest_recipe(recipes_book *book) {
-//     char *longest_recipe = NULL;
-//     unsigned int max_recipe_length = 0;
-//     struct category_node *current_category = book->first;
-
-//     iterate_on_categories(&longest_recipe, max_recipe_length, current_category);
-    
-//     return longest_recipe;
-// }
-
