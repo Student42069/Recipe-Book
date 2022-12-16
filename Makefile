@@ -36,4 +36,4 @@ clean:
 	rm -f tests
 
 valgrind: recherche
-	valgrind --leak-check=yes -s --track-origins=yes ./recherche test/banque2.txt < test_files/input.txt
+	valgrind --leak-check=yes -s --track-origins=yes ./recherche test_files/banque2.txt < test_files/input.txt
