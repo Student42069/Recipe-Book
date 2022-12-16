@@ -2,7 +2,7 @@ before_script:
     - apt-key update
     - apt-get update -qq
     - apt-get install --allow-unauthenticated libcunit1 libcunit1-doc libcunit1-dev
-
+    - apt-get install valgrind
 build:
     stage: build
     script:
