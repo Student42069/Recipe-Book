@@ -4,7 +4,10 @@ before_script:
 build:
     stage: build
     script:
+        - make
 
 test:
     stage: test
     script:
+        - make test
+        - make valgrind

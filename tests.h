@@ -5,6 +5,9 @@
 #include "main.h"
 #include "linkedList.h"
 
+#ifndef TESTS_H_INCLUDED
+#define TESTS_H_INCLUDED
+
 /**
  * -----------------------
  * Unit tests for main.c
@@ -28,3 +31,5 @@ void test_recipes_book_initialize(void);
 void test_recipes_book_add_category(void);
 void test_recipes_book_add_recipe(void);
 void test_free_recipe_book(void);
+
+#endif
