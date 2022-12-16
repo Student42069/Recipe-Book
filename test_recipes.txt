@@ -1,2 +1,0 @@
-recipe1 [category1]
-recipe2 [category2]

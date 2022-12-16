@@ -1,4 +1,5 @@
 *.o
 recherche
 testing.c
-.txt
+test_recipes.txt
+stats.txt
