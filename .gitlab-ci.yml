@@ -1,5 +1,6 @@
 before_script:
     - apt-get update -qq
+    - apt-get install libcunit1 libcunit1-doc libcunit1-dev
 
 build:
     stage: build
