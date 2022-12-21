@@ -130,6 +130,22 @@ void load_recipe_into_one_category(char *buffer, recipes_book *book, char *name,
 void get_recipe_name(char *name, char *buffer);
 
 /**
+ * Checks if a character is an uppercase letter
+ *
+ * @param c the character to check
+ *
+ * @return non-zero if c is an uppercase letter, zero otherwise
+ */
+int is_upper(char c);
+
+/**
+ * Convert a string to lowercase
+ *
+ * @param str the string to convert
+ */
+void to_lower(char *str);
+
+/**
  * Searches the given recipes book for the specified category and prints the names of all the
  * recipes in that category.
  *
@@ -159,19 +175,3 @@ void search_by_category_and_keyword(recipes_book *book, char *category, char *ke
  * @param book The recipes book to search.
  */
 void run_prompt(recipes_book *book);
-
-/**
- * Checks if a character is an uppercase letter
- *
- * @param c the character to check
- *
- * @return non-zero if c is an uppercase letter, zero otherwise
- */
-int is_upper(char c);
-
-/**
- * Convert a string to lowercase
- *
- * @param str the string to convert
- */
-void to_lower(char *str);
