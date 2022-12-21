@@ -78,6 +78,7 @@ Les cas d'erreur non-gérés connus sont :
 
 1. Si le fichier de recettes se termine par plus d'un '\n'
 2. Si seulement '\n' est entree au clavier
+3. Si le fichier est vide, la lettre la plus frequente sera 'a'
 
 ## Tests
 

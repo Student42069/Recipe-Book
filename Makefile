@@ -23,8 +23,8 @@ stats.o: stats.h stats.c
 test: tests
 	./tests
 
-tests: tests.o main.o linkedList.o
-	$(CC) tests.o main.o linkedList.o -lcunit -o tests
+tests: tests.o main.o linkedList.o stats.o
+	$(CC) tests.o main.o linkedList.o stats.o -lcunit -o tests
 
 tests.o: tests.h tests.c
 	$(CC) $(OPTIONS) -c tests.c
