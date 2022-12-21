@@ -203,19 +203,139 @@ void test_free_recipe_book(void) {
     recipes_book *book = recipes_book_initialize();
 
     // Add some categories and recipes to the book
-    recipes_book_add_category(book, "Breakfast");
     recipes_book_add_recipe(book, "Breakfast", "Banana Bread");
     recipes_book_add_recipe(book, "Breakfast", "Omelette");
 
-    recipes_book_add_category(book, "Dinner");
     recipes_book_add_recipe(book, "Dinner", "Spaghetti");
     recipes_book_add_recipe(book, "Dinner", "Pork Chops");
 
     // Call the free_recipe_book function
     free_recipe_book(book);
-
+    book = NULL;
     // Check that all memory used by the book has been deallocated
-    CU_ASSERT_PTR_NULL(book->first);
+    CU_ASSERT_PTR_NULL(book);
+}
+
+/**
+ * -----------------------
+ * Unit tests for stats.c
+ * -----------------------
+ */
+
+void test_num_lines(void) {
+    // Test that num_lines returns 0 for an empty file
+    FILE *empty_file = fopen("empty.txt", "w");
+    fclose(empty_file);
+    CU_ASSERT_EQUAL(num_lines("empty.txt"), 0);
+    remove("empty.txt");
+
+    // Test that num_lines returns the correct number of lines for a file with multiple lines
+    FILE *multi_line_file = fopen("multi_line.txt", "w");
+    fputs("line 1\n", multi_line_file);
+    fputs("line 2\n", multi_line_file);
+    fputs("line 3\n", multi_line_file);
+    fclose(multi_line_file);
+    CU_ASSERT_EQUAL(num_lines("multi_line.txt"), 3);
+    remove("multi_line.txt");
+} 
+
+void test_num_unique_words(void) {
+    // Test that num_unique_words returns 0 for an empty file
+    FILE *empty_file = fopen("empty.txt", "w");
+    fclose(empty_file);
+    CU_ASSERT_EQUAL(num_unique_words("empty.txt"), 0);
+    remove("empty.txt");
+
+    // Test that num_unique_words returns the correct number of unique words for a file with multiple lines
+    // and repeated words
+    FILE *multi_line_file = fopen("multi_line.txt", "w");
+    fputs("word1 word2 word3\n", multi_line_file);
+    fputs("word1 word3 word3\n", multi_line_file);
+    fclose(multi_line_file);
+    CU_ASSERT_EQUAL(num_unique_words("multi_line.txt"), 3);
+    remove("multi_line.txt");
+}
+
+void test_num_words(void) {
+    // Test that num_words returns 0 for an empty file
+    FILE *empty_file = fopen("empty.txt", "w");
+    fclose(empty_file);
+    CU_ASSERT_EQUAL(num_words("empty.txt"), 0);
+    remove("empty.txt");
+
+    // Test that num_words returns the correct number of words for a file with multiple lines
+    FILE *multi_line_file = fopen("multi_line.txt", "w");
+    fputs("line 1\n", multi_line_file);
+    fputs("line 2\n", multi_line_file);
+    fputs("line 3\n", multi_line_file);
+    fclose(multi_line_file);
+    CU_ASSERT_EQUAL(num_words("multi_line.txt"), 6);
+    remove("multi_line.txt");
+}
+
+void test_most_frequent_letter(void) {
+    // Test that most_frequent_letter returns the correct letter for a file with multiple lines
+    FILE *multi_line_file = fopen("multi_line.txt", "w");
+    fputs("abcde\n", multi_line_file);
+    fputs("bcdef\n", multi_line_file);
+    fputs("cdefg\n", multi_line_file);
+    fclose(multi_line_file);
+    CU_ASSERT_EQUAL(most_frequent_letter("multi_line.txt"), 'c');
+    remove("multi_line.txt");
+}
+
+void test_num_categories(void) {
+    // Test that num_categories returns 0 for an empty recipes book
+    recipes_book *empty_book = recipes_book_initialize();
+    CU_ASSERT_EQUAL(num_categories(empty_book), 0);
+    free_recipe_book(empty_book);
+
+    // Test that num_categories returns the correct number of categories for a recipes book with multiple categories
+    recipes_book *multi_category_book = recipes_book_initialize();
+    recipes_book_add_category(multi_category_book, "Category 1");
+    recipes_book_add_category(multi_category_book, "Category 2");
+    recipes_book_add_category(multi_category_book, "Category 3");
+    CU_ASSERT_EQUAL(num_categories(multi_category_book), 3);
+    free_recipe_book(multi_category_book);
+}
+
+void test_category_with_most_recipes(void) {
+    // Test that category_with_most_recipes returns NULL for an empty recipes book
+    recipes_book *empty_book = recipes_book_initialize();
+    CU_ASSERT_PTR_NULL(category_with_most_recipes(empty_book));
+    free_recipe_book(empty_book);
+
+    // Test that category_with_most_recipes returns the correct category for a recipes book with multiple categories
+    // and different number of recipes in each category
+    recipes_book *multi_category_book = recipes_book_initialize();
+    recipes_book_add_recipe(multi_category_book, "Category 1", "Recipe 1");
+    recipes_book_add_recipe(multi_category_book, "Category 1", "Recipe 2");
+    recipes_book_add_recipe(multi_category_book, "Category 2", "Recipe 3");
+    recipes_book_add_recipe(multi_category_book, "Category 2", "Recipe 4");
+    recipes_book_add_recipe(multi_category_book, "Category 3", "Recipe 5");
+    recipes_book_add_recipe(multi_category_book, "Category 3", "Recipe 6");
+    recipes_book_add_recipe(multi_category_book, "Category 3", "Recipe 7");
+    CU_ASSERT_STRING_EQUAL(category_with_most_recipes(multi_category_book), "Category 3");
+    free_recipe_book(multi_category_book);
+}
+
+void test_longest_recipe(void) {
+    // Test that longest_recipe returns NULL for an empty recipes book
+    recipes_book *empty_book = recipes_book_initialize();
+    CU_ASSERT_PTR_NULL(longest_recipe(empty_book));
+    free_recipe_book(empty_book);
+
+    // Test that longest_recipe returns the correct recipe for a recipes book with multiple categories
+    // and different number of recipes in each category
+    recipes_book *multi_category_book = recipes_book_initialize();
+    recipes_book_add_recipe(multi_category_book, "Category 1", "Recipe 1");
+    recipes_book_add_recipe(multi_category_book, "Category 1", "Recipe 2");
+    recipes_book_add_recipe(multi_category_book, "Category 2", "Recipe 3");
+    recipes_book_add_recipe(multi_category_book, "Category 2", "Recipe 4");
+    recipes_book_add_recipe(multi_category_book, "Category 2", "Recipe 5");
+    recipes_book_add_recipe(multi_category_book, "Category 2", "Recipe Longest 6");
+    CU_ASSERT_STRING_EQUAL(longest_recipe(multi_category_book), "Recipe Longest 6");
+    free_recipe_book(multi_category_book);
 }
 
 int main() {
@@ -234,6 +354,13 @@ int main() {
     // Set up the second test suite.
     CU_pSuite suite2 = CU_add_suite("TestSuite for linkedList.c", NULL, NULL);
     if (suite2 == NULL) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    // Set up the third test suite.
+    CU_pSuite suite3 = CU_add_suite("TestSuite for stats.c", NULL, NULL);
+    if (suite3 == NULL) {
         CU_cleanup_registry();
         return CU_get_error();
     }
@@ -259,6 +386,20 @@ int main() {
         (NULL == CU_add_test(suite2, "test_recipes_book_add_category", test_recipes_book_add_category)) ||
         (NULL == CU_add_test(suite2, "test_recipes_book_add_recipe", test_recipes_book_add_recipe)) ||
         (NULL == CU_add_test(suite2, "test_free_recipe_book", test_free_recipe_book))
+    ) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    // Add the test functions to the suite3
+    if (
+        (NULL == CU_add_test(suite3, "test_num_lines", test_num_lines)) ||
+        (NULL == CU_add_test(suite3, "test_num_unique_words", test_num_unique_words)) ||
+        (NULL == CU_add_test(suite3, "test_num_words", test_num_words)) ||
+        (NULL == CU_add_test(suite3, "test_most_frequent_letter", test_most_frequent_letter)) ||
+        (NULL == CU_add_test(suite3, "test_num_categories", test_num_categories)) ||
+        (NULL == CU_add_test(suite3, "test_category_with_most_recipes", test_category_with_most_recipes)) ||
+        (NULL == CU_add_test(suite3, "test_longest_recipe", test_longest_recipe))
     ) {
         CU_cleanup_registry();
         return CU_get_error();
