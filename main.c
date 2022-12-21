@@ -1,164 +1,164 @@
 #include "main.h"
 
 FILE* open_file(const char *file_name, const char *mode) {
-    FILE *fptr = fopen(file_name, mode);
-    
-    if (fptr == NULL) {
+   FILE *fptr = fopen(file_name, mode);
+   
+   if (fptr == NULL) {
       printf("Erreur dans l'ouverture du fichier: %s\n", file_name);
       exit(ERREUR_OPEN_FILE);
-    }
-    return fptr;
+   }
+   return fptr;
 }
 
 void close_file(FILE *fptr) {
-    if (fclose(fptr) == EOF) {
+   if (fclose(fptr) == EOF) {
       printf("Erreur dans la fermeture du fichier.\n");
       exit(ERREUR_CLOSE_FILE);
-    }
+   }
 }
 
 void check_args(const int argc, char *argv[]) {
-    if (argc == 2) {
-        FILE *fp = open_file(argv[1], "r");
-        close_file(fp);
-        return;
-    } else if (argc == 4) {
-        check_stats_args(argv);
-        return;
-    }
-    throw_error_args_count();
+   if (argc == 2) {
+      FILE *fp = open_file(argv[1], "r");
+      close_file(fp);
+      return;
+   } else if (argc == 4) {
+      check_stats_args(argv);
+      return;
+   }
+   throw_error_args_count();
 }
 
 void check_stats_args(char *argv[]) {
-    if (strcmp(argv[2], "-S") == 0) {
-        FILE *fp = open_file(argv[3], "w");
-        close_file(fp);
-    } else {
-        printf("%s\n", "Deuxieme argument invalide");
-        printf(USAGE_STATISTIQUE, "./recherche");
-        exit(ERREUR_ARGS);
-    }
+   if (strcmp(argv[2], "-S") == 0) {
+      FILE *fp = open_file(argv[3], "w");
+      close_file(fp);
+   } else {
+      printf("%s\n", "Deuxieme argument invalide");
+      printf(USAGE_STATISTIQUE, "./recherche");
+      exit(ERREUR_ARGS);
+   }
 }
 
 void throw_error_args_count() {
-    printf("%s\n", "nombre arguments invalide");
-    printf(USAGE, "./recherche");
-    exit(ERREUR_NB_ARGS);
+   printf("%s\n", "nombre arguments invalide");
+   printf(USAGE, "./recherche");
+   exit(ERREUR_NB_ARGS);
 }
 
 void load_recipes(char *file_name, recipes_book *book) {
-    FILE *fp = open_file(file_name, "r");
-    char buffer[MAX_LINE_LENGHT + 1];
-    while(fgets(buffer, MAX_LINE_LENGHT, fp)) {
-        if (buffer[strlen(buffer) - 1] == '\n')
-            buffer[strlen(buffer)- 1] = '\0';
-        load_one_recipe(buffer, book);
-    }
-    close_file(fp);
+   FILE *fp = open_file(file_name, "r");
+   char buffer[MAX_LINE_LENGHT + 1];
+   while(fgets(buffer, MAX_LINE_LENGHT, fp)) {
+      if (buffer[strlen(buffer) - 1] == '\n')
+         buffer[strlen(buffer)- 1] = '\0';
+      load_one_recipe(buffer, book);
+   }
+   close_file(fp);
 }
 
 void load_one_recipe(char *buffer, recipes_book *book) {
-    char name[strlen(buffer) + 1];
-    name[0] = '\0';
-    get_recipe_name(name, buffer);
-    load_recipe_into_categories(name, buffer, book);
+   char name[strlen(buffer) + 1];
+   name[0] = '\0';
+   get_recipe_name(name, buffer);
+   load_recipe_into_categories(name, buffer, book);
 }
 
 void load_recipe_into_categories(char *name, char *buffer, recipes_book *book) {
-    int start;
-    for (int i = 0; i < (int) strlen(buffer); i++) {
-        if (buffer[i] == '[') start = i;
-        if (buffer[i] == ']')
-            load_recipe_into_one_category(buffer, book, name, start, i);
-    }
+   int start;
+   for (int i = 0; i < (int) strlen(buffer); i++) {
+      if (buffer[i] == '[') start = i;
+      if (buffer[i] == ']')
+         load_recipe_into_one_category(buffer, book, name, start, i);
+   }
 }
 
 void load_recipe_into_one_category(char *buffer, recipes_book *book, char *name, int start, int end) {
-    char category_name[MAX_LINE_LENGHT];
-    int counter = 0;
-    for (int j = start + 1; j < end; j++)
-        category_name[counter++] = buffer[j];
-    category_name[counter] = '\0';
-    recipes_book_add_recipe(book, category_name, name);
+   char category_name[MAX_LINE_LENGHT];
+   int counter = 0;
+   for (int j = start + 1; j < end; j++)
+      category_name[counter++] = buffer[j];
+   category_name[counter] = '\0';
+   recipes_book_add_recipe(book, category_name, name);
 }
 
 void get_recipe_name(char *name, char *buffer) {
-    strncat(name, buffer, strlen(buffer) - strlen(strchr(buffer, '[')) - 1);
-    name[strlen(buffer) - strlen(strchr(buffer, '['))] = '\0';
+   strncat(name, buffer, strlen(buffer) - strlen(strchr(buffer, '[')) - 1);
+   name[strlen(buffer) - strlen(strchr(buffer, '['))] = '\0';
 }
 
 int is_upper(char c) {
-    return c >= 'A' && c <= 'Z';
+   return c >= 'A' && c <= 'Z';
 }
 
 void to_lower(char *str) {
-    int i;
-    for (i = 0; str[i]; i++)
-    if (is_upper(str[i]))
-        str[i] = str[i] - 'A' + 'a';
+   int i;
+   for (i = 0; str[i]; i++)
+   if (is_upper(str[i]))
+      str[i] = str[i] - 'A' + 'a';
 }
 
 void search_by_category(recipes_book *book, char *category) {
-    struct category_node *current = book->first;
-    while (current) {
-        if (strcasecmp(current->name, category) == 0) {
-            struct recipe_node *recipe = current->recipes;
-            while (recipe) {
-                printf("%s\n", recipe->name);
-                recipe = recipe->next;
-            }
-            return;
-        }
-        current = current->next;
-    }
-    printf("La catégorie '%s' n'existe pas.\n", category);
+   struct category_node *current = book->first;
+   while (current) {
+      if (strcasecmp(current->name, category) == 0) {
+         struct recipe_node *recipe = current->recipes;
+         while (recipe) {
+            printf("%s\n", recipe->name);
+            recipe = recipe->next;
+         }
+         return;
+      }
+      current = current->next;
+   }
+   printf("La catégorie '%s' n'existe pas.\n", category);
 }
 
 void search_by_category_and_keyword(recipes_book *book, char *category, char *keyword) {
-    struct category_node *current = book->first;
-    while (current) {
-        if (strcasecmp(current->name, category) == 0) {
-            struct recipe_node *recipe = current->recipes;
-            int found = 0;
-            while (recipe) {
-                to_lower(keyword);
-                char recipe_name[MAX_LINE_LENGHT]= {'\0'};
-                strcpy(recipe_name, recipe->name);
-                to_lower(recipe_name);
-                if (strstr(recipe_name, keyword) != NULL) {
-                    printf("%s\n", recipe->name);
-                    found = 1;
-                }
-                recipe = recipe->next;
+   struct category_node *current = book->first;
+   while (current) {
+      if (strcasecmp(current->name, category) == 0) {
+         struct recipe_node *recipe = current->recipes;
+         int found = 0;
+         while (recipe) {
+            to_lower(keyword);
+            char recipe_name[MAX_LINE_LENGHT]= {'\0'};
+            strcpy(recipe_name, recipe->name);
+            to_lower(recipe_name);
+            if (strstr(recipe_name, keyword) != NULL) {
+               printf("%s\n", recipe->name);
+               found = 1;
             }
-            if (found == 0)
-                printf("Aucune recette trouvée pour la catégorie '%s' et le mot-clé '%s'.\n", category, keyword);
-            return;
-        }
-        current = current->next;
-    }
-    printf("La catégorie '%s' n'existe pas.\n", category);
+            recipe = recipe->next;
+         }
+         if (found == 0)
+            printf("Aucune recette trouvée pour la catégorie '%s' et le mot-clé '%s'.\n", category, keyword);
+         return;
+      }
+      current = current->next;
+   }
+   printf("La catégorie '%s' n'existe pas.\n", category);
 }
 
 void run_prompt(recipes_book *book) {
-    char query[MAX_LINE_LENGHT];
-    while (1) {
-        printf("Entrez votre critère de recherche : ");
-        scanf ("%[^\n]%*c", query);
+   char query[MAX_LINE_LENGHT];
+   while (1) {
+      printf("Entrez votre critère de recherche : ");
+      scanf ("%[^\n]%*c", query);
 
-        if (strcmp(query, "exit") == 0) {
-            break;
-        } else if (strchr(query, ' ') == NULL) {
-            search_by_category(book, query);
-        } else {
-            char *keyword = strchr(query, ' ') + 1;
-            *strchr(query, ' ') = '\0';
-            if (strchr(keyword, ' ') != NULL) {
-                printf("Critère de recherche invalide.\n");
-            } else {
-                search_by_category_and_keyword(book, query, keyword);
-            }
-        }
-        strcpy(query, "");
-    }
+      if (strcmp(query, "exit") == 0) {
+         break;
+      } else if (strchr(query, ' ') == NULL) {
+         search_by_category(book, query);
+      } else {
+         char *keyword = strchr(query, ' ') + 1;
+         *strchr(query, ' ') = '\0';
+         if (strchr(keyword, ' ') != NULL) {
+            printf("Critère de recherche invalide.\n");
+         } else {
+            search_by_category_and_keyword(book, query, keyword);
+         }
+      }
+      strcpy(query, "");
+   }
 }

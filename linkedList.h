@@ -8,20 +8,20 @@
 #define LINKEDLIST_H_INCLUDED
 
 struct category_node {
-    char *name;
-    unsigned int num_recipes;
-    struct recipe_node *recipes;
-    struct category_node *next;
+   char *name;
+   unsigned int num_recipes;
+   struct recipe_node *recipes;
+   struct category_node *next;
 };
 
 struct recipe_node {
-    char name[MAX_LINE_LENGHT];
-    struct recipe_node *next;
+   char name[MAX_LINE_LENGHT];
+   struct recipe_node *next;
 };
 
 typedef struct {
-    struct category_node *first;
-    unsigned int num_categories;
+   struct category_node *first;
+   unsigned int num_categories;
 } recipes_book;
 
 /**
