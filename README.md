@@ -73,6 +73,7 @@ Pour exécuter le programme et generer des statistiques sur les recettes fournie
 Les cas d'erreur gérés sont :
 
 1. Fichier non trouvé
+2. Allocation de memoire dynamique qui echoue
 
 Les cas d'erreur non-gérés connus sont :
 
