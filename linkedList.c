@@ -1,7 +1,9 @@
 #include "linkedList.h"
 
 recipes_book *recipes_book_initialize() {
-    recipes_book *book = (recipes_book*)malloc(sizeof(recipes_book));
+    recipes_book *book;
+    if(!(book = (recipes_book*) malloc(sizeof(recipes_book))))
+        throw_malloc_error();
     book->first = NULL;
     book->num_categories = 0;
     return book;
@@ -39,7 +41,7 @@ void add_initial_category(recipes_book *book, const char *category) {
     struct category_node *current = book->first;
     current = (struct category_node*)malloc(sizeof(struct category_node));
     if(!(current->name = malloc(strlen(category) + 1)))
-        exit(7);
+        throw_malloc_error();
     strcpy(current->name, category);
     current->num_recipes = 0;
     current->recipes = NULL;
@@ -52,7 +54,7 @@ struct category_node* add_first_category(struct category_node *current, const ch
     struct category_node* new_node;
 	new_node = (struct category_node*)malloc(sizeof(struct category_node));
     if(!(new_node->name = malloc(strlen(category) + 1)))
-        exit(7);
+        throw_malloc_error();
     strcpy(new_node->name, category);
     new_node->num_recipes = 0;
     new_node->recipes = NULL;
@@ -64,7 +66,7 @@ void add_category(struct category_node *previous, const char *category) {
     struct category_node* new_node;
 	new_node = (struct category_node*) malloc(sizeof(struct category_node));
     if(!(new_node->name = malloc(strlen(category) + 1)))
-        exit(7);
+        throw_malloc_error();
     strcpy(new_node->name, category);
     new_node->num_recipes = 0;
     new_node->recipes = NULL;
@@ -181,34 +183,7 @@ void free_recipes(struct category_node *category) {
     }
 }
 
-void print_book(recipes_book *book) {
-    if(book==NULL) {
-		printf("Book is empty !\n");
-		return;
-	}
-
-    printf("\nPrinting book...\n=====================\n");
-	struct category_node *current = book->first;
-
-	while(current) {
-		printf("Category : %s\n",current->name);
-        print_recipes(current->recipes);
-        printf("\n=====================\n");
-		current = current->next;
-	}
-}
-
-void print_recipes(struct recipe_node *recipe) {
-    if(!recipe) {
-		printf("This category is Empty !\n");
-		return;
-	}
-
-    printf("The recipes are : \n");
-	struct recipe_node *current = recipe;
-
-	while(current) {
-		printf("%s\n", current->name);
-		current = current->next;
-	}
+void throw_malloc_error() {
+    puts("Une erreur d'allocation de memoire s'est produite.");
+    exit(7);
 }
