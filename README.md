@@ -101,10 +101,23 @@ Tout les  tests réussissent.
 Entrez `make coverage` pour executer la verification de la couverture des tests unitaire
 sur tout les fichiers du programme.
 
+Mes résultats:
+```sh
+main.c : 44.35%
+linkedList.c : 77.95%
+stats.c : 87.00%
+tests.c : 94.19%
+```
+
 ## Verifier les fuites de memoire
 
 Entrez `make valgrind` pour executer un test qui verifiera les fuites de memoire,
 l'interaction de l'utilisateur ne sera pas necessaire pour cette execution.
+
+Mes résultats:
+```sh
+ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```
 
 ## Supprimer les fichiers generes
 
