@@ -88,11 +88,11 @@ Entrez `make test` pour exécuter la suite de tests automatiques.
 Mes résultats:
 ```sh
 Run Summary:    Type  Total    Ran Passed Failed Inactive
-              suites      2      2    n/a      0        0
-               tests     12     12     12      0        0
-             asserts     41     41     41      0      n/a
+              suites      3      3    n/a      0        0
+               tests     19     19     19      0        0
+             asserts     54     54     54      0      n/a
 
-Elapsed time =    0.000 seconds
+Elapsed time =    0.001 seconds
 ```
 Tout les  tests réussissent.
 
