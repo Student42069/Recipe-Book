@@ -6,13 +6,13 @@
  * -----------------------
  */
 void test_open_file() {
-    FILE* fptr = open_file("test/banque_vide.txt", "r");
+    FILE* fptr = open_file("test_files/banque_vide.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(fptr);
     fclose(fptr);
 }
 
 void test_close_file() {
-    FILE* fptr = fopen("test/banque_vide.txt", "r");
+    FILE* fptr = fopen("test_files/banque_vide.txt", "r");
     close_file(fptr);
     CU_ASSERT_EQUAL(0, 0);
 }
@@ -20,13 +20,13 @@ void test_close_file() {
 void test_check_args() {
     // Test with valid number of arguments and valid recipe file.
     int argc = 2;
-    char* argv2[] = { "./recherche", "test/banque1.txt" };
+    char* argv2[] = { "./recherche", "test_files/banque1.txt" };
     check_args(argc, argv2);
     CU_ASSERT_EQUAL(1, 1);
 
     // Test with valid number of arguments and valid statistics arguments.
     argc = 4;
-    char* argv4[] = { "./recherche", "test/banque1.txt" , "-S", "stats.txt" };
+    char* argv4[] = { "./recherche", "test_files/banque1.txt" , "-S", "stats.txt" };
     check_args(argc, argv4);
     CU_ASSERT_EQUAL(1, 1);
 }

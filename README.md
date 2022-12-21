@@ -21,14 +21,17 @@ Le contenu du projet:
 * `.gitignore`: ignorer certains fichiers lors de la gestion des version
 * `.gitla-ci.yml`: instructions d'intégration continu avec GitLab CI/CD
 * `sujet.pdf`: sujet du travail
-* `main.h`: interface Le main
-* `main.c`: code source Le main
-* `linkedList.h`: interface La liste chainée
-* `linkedList.c`: code source La liste chainée
-* `stats.h`: interface La gestion des statistiques
-* `stats.c`: code source La gestion des statistiques
-* `tests.h`: interface Les tests
-* `tests.c`: code source Les tests
+* `/test_files`: dossier contenant des fichiers de recettes
+* `central.h`: interface main()
+* `main.h`: code source main()
+* `main.h`: interface des methodes principales du programme
+* `main.c`: code source es methodes principales du programme
+* `linkedList.h`: interface liste chainée
+* `linkedList.c`: code source liste chainée
+* `stats.h`: interface gestion des statistiques
+* `stats.c`: code source gestion des statistiques
+* `tests.h`: interface des tests
+* `tests.c`: code source des tests
 
 [Contraintes du travail](sujet.pdf)
 
@@ -55,26 +58,16 @@ cd inf3135-aut2022-tp3
 make
 ```
 
-Exemple de banque de données :
-```sh
-Poulet au romarin [poulet] [bbq]
-Boeuf au satay [boeuf] [asiatique]
-Salade du jardin [vegetarien]
-Poulet crapaudine [poulet]
-Pho [soupe] [asiatique]
-Authentique gibelotte des iles de Sorel [soupe] [poisson] [terroir]
-```
-
 Pour exécuter le programme avec une des recette contenu dans un fichier :
 ```sh
 ./recherche <FICHIER_TEXTE>
-Entrez votre critère de recherche : POULET
-Poulet au romarin
-Poulet crapaudine.
-Entrez votre critère de recherche : poulet crapaud
-Poulet crapaudine.
-Entrez votre critère de recherche : Salami
-Catégorie inexistante.
+Entrez votre critère de recherche : <CATEGORIE> [MOT-CLE]
+```
+`exit` pour arreter le programme normalement.
+
+Pour exécuter le programme et generer des statistiques sur les recettes fournie en parametres :
+```sh
+./recherche <FICHIER_TEXTE> -S <FICHIER OU ECRIRE LES STATISTIQUES>
 ```
 
 Les cas d'erreur gérés sont :
@@ -92,13 +85,30 @@ Entrez `make test` pour exécuter la suite de tests automatiques.
 
 Mes résultats:
 ```sh
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites      2      2    n/a      0        0
+               tests     12     12     12      0        0
+             asserts     41     41     41      0      n/a
+
+Elapsed time =    0.000 seconds
 ```
-Les  tests réussissent.
+Tout les  tests réussissent.
+
+## Supprimer les fichiers generes
+
+Entrez `make clean` pour supprimer tout fichier genere.
+
+## Verifier les fuites de memoire
+
+Entrez `make valgrind` pour executer un test qui verifiera les fuites de memoire,
+l'interaction de l'utilisateur ne sera pas necessaire pour cette execution.
 
 ## Dépendances
 
 * [GCC](https://gcc.gnu.org/)
 * [Make](https://www.gnu.org/software/make/manual/make.html)
+* [Valgrind](https://valgrind.org/)
+* [CUnit](https://cunit.sourceforge.net/)
 
 ## Références
 
