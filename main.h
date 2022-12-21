@@ -33,7 +33,8 @@ enum error {
     ERREUR_FILE_FORMAT      = 3,
     ERREUR_OPEN_FILE        = 4,
     ERREUR_CLOSE_FILE       = 5,
-    ERREUR_ARGS          = 6
+    ERREUR_ARGS             = 6,
+    ERREUR_MALLOC           = 7
 };
 
 

@@ -92,8 +92,4 @@ char *category_with_most_recipes(recipes_book *book);
  */
 char *longest_recipe(recipes_book *book);
 
-// void iterate_on_categories(char *longest_recipe, unsigned int max_recipe_length, struct category_node *current_category);
-
-// void iterate_on_recipes(char *longest_recipe, unsigned int max_recipe_length, struct recipe_node *current_recipe);
-
 #endif

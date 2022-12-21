@@ -47,13 +47,13 @@ void test_load_recipes(void) {
 
     // // Check that the first category has the correct name and contains the first recipe
     struct category_node *category = book->first;
-    CU_ASSERT_STRING_EQUAL(category->category, "category1");
+    CU_ASSERT_STRING_EQUAL(category->name, "category1");
     CU_ASSERT_EQUAL(category->num_recipes, 1);
     CU_ASSERT_STRING_EQUAL(category->recipes->name, "recipe1");
 
     // Check that the second category has the correct name and contains the second recipe
     category = category->next;
-    CU_ASSERT_STRING_EQUAL(category->category, "category2");
+    CU_ASSERT_STRING_EQUAL(category->name, "category2");
     CU_ASSERT_EQUAL(category->num_recipes, 1);
     CU_ASSERT_STRING_EQUAL(category->recipes->name, "recipe2");
 }
@@ -68,12 +68,12 @@ void test_load_one_recipe(void) {
     CU_ASSERT_EQUAL(book->num_categories, 2);
 
     struct category_node *current = book->first;
-    CU_ASSERT_EQUAL(strcmp(current->category, "Breakfast"), 0);
+    CU_ASSERT_EQUAL(strcmp(current->name, "Breakfast"), 0);
     CU_ASSERT_EQUAL(current->num_recipes, 1);
     CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
 
     current = current->next;
-    CU_ASSERT_EQUAL(strcmp(current->category, "Dessert"), 0);
+    CU_ASSERT_EQUAL(strcmp(current->name, "Dessert"), 0);
     CU_ASSERT_EQUAL(current->num_recipes, 1);
     CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
 }
@@ -90,13 +90,13 @@ void test_load_recipe_into_categories(void) {
 
     // Check that the first category has the correct name and contains the recipe
     struct category_node *current = book->first;
-    CU_ASSERT_EQUAL(strcmp(current->category, "Breakfast"), 0);
+    CU_ASSERT_EQUAL(strcmp(current->name, "Breakfast"), 0);
     CU_ASSERT_EQUAL(current->num_recipes, 1);
     CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
 
     // Check that the second category has the correct name and contains the recipe
     current = current->next;
-    CU_ASSERT_EQUAL(strcmp(current->category, "Dessert"), 0);
+    CU_ASSERT_EQUAL(strcmp(current->name, "Dessert"), 0);
     CU_ASSERT_EQUAL(current->num_recipes, 1);
     CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
 
@@ -120,7 +120,7 @@ void test_load_recipe_into_one_category(void) {
 
     // Check that the category has the correct name and contains the recipe
     struct category_node *current = book->first;
-    CU_ASSERT_EQUAL(strcmp(current->category, "Breakfast"), 0);
+    CU_ASSERT_EQUAL(strcmp(current->name, "Breakfast"), 0);
     CU_ASSERT_EQUAL(current->num_recipes, 1);
     CU_ASSERT_EQUAL(strcmp(current->recipes->name, "Banana Bread"), 0);
 }
@@ -175,7 +175,7 @@ void test_recipes_book_add_category(void) {
 
     // Check that the category has the correct name
     struct category_node *category = book->first;
-    CU_ASSERT_STRING_EQUAL(category->category, "Breakfast");
+    CU_ASSERT_STRING_EQUAL(category->name, "Breakfast");
 }
 
 void test_recipes_book_add_recipe(void) {

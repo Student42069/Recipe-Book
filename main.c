@@ -101,7 +101,7 @@ void to_lower(char *str) {
 void search_by_category(recipes_book *book, char *category) {
     struct category_node *current = book->first;
     while (current) {
-        if (strcasecmp(current->category, category) == 0) {
+        if (strcasecmp(current->name, category) == 0) {
             struct recipe_node *recipe = current->recipes;
             while (recipe) {
                 printf("%s\n", recipe->name);
@@ -117,7 +117,7 @@ void search_by_category(recipes_book *book, char *category) {
 void search_by_category_and_keyword(recipes_book *book, char *category, char *keyword) {
     struct category_node *current = book->first;
     while (current) {
-        if (strcasecmp(current->category, category) == 0) {
+        if (strcasecmp(current->name, category) == 0) {
             struct recipe_node *recipe = current->recipes;
             int found = 0;
             while (recipe) {
