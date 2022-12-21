@@ -96,14 +96,19 @@ Elapsed time =    0.000 seconds
 ```
 Tout les  tests réussissent.
 
-## Supprimer les fichiers generes
+## Verifier la couverture des tests
 
-Entrez `make clean` pour supprimer tout fichier genere.
+Entrez `make coverage` pour executer la verification de la couverture des tests unitaire
+sur tout les fichiers du programme.
 
 ## Verifier les fuites de memoire
 
 Entrez `make valgrind` pour executer un test qui verifiera les fuites de memoire,
 l'interaction de l'utilisateur ne sera pas necessaire pour cette execution.
+
+## Supprimer les fichiers generes
+
+Entrez `make clean` pour supprimer tout les fichiers genere.
 
 ## Dépendances
 
@@ -111,6 +116,7 @@ l'interaction de l'utilisateur ne sera pas necessaire pour cette execution.
 * [Make](https://www.gnu.org/software/make/manual/make.html)
 * [Valgrind](https://valgrind.org/)
 * [CUnit](https://cunit.sourceforge.net/)
+* [Gcov](https://gcc.gnu.org/onlinedocs/gcc/Invoking-Gcov.html#Invoking-Gcov)
 
 ## Références
 
